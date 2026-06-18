@@ -1,0 +1,238 @@
+﻿"use client";
+import { useState } from "react";
+
+const PACKAGE_TYPES = [
+  { id: "food", label: "Food Order", surcharge: 3 },
+  { id: "smoke", label: "Smoke & Snack Run", surcharge: 2 },
+  { id: "grocery", label: "Groceries", surcharge: 3 },
+  { id: "parcel", label: "General Parcel", surcharge: 2 },
+  { id: "pharmacy", label: "Pharmacy / Rx", surcharge: 3 },
+  { id: "documents", label: "Documents", surcharge: 0 },
+];
+
+const SHOPPING_TYPES = ["food", "smoke", "grocery"];
+
+function calcStandardRate(km, packageSurcharge, rush) {
+  const labour = (km / 40) * 30;
+  const base = km * 0.45 + labour;
+  const withMargin = base * 1.3;
+  const total = withMargin + packageSurcharge + (rush ? 8 : 0);
+  return Math.max(10, Math.round(total * 100) / 100);
+}
+
+export default function Order() {
+  const [pickup, setPickup] = useState("");
+  const [dropoff, setDropoff] = useState("");
+  const [packageType, setPackageType] = useState("");
+  const [rush, setRush] = useState(false);
+  const [items, setItems] = useState([{ name: "", qty: 1 }]);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [notes, setNotes] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [km, setKm] = useState(null);
+  const [tier, setTier] = useState(null);
+
+  const selectedPackage = PACKAGE_TYPES.find(p => p.id === packageType);
+  const isShopping = SHOPPING_TYPES.includes(packageType);
+
+  function handleKmChange(e) {
+    const val = parseFloat(e.target.value);
+    setKm(isNaN(val) ? null : val);
+    setTier(val > 0 ? "standard" : null);
+  }
+
+  function addItem() { setItems([...items, { name: "", qty: 1 }]); }
+  function updateItem(i, field, val) {
+    const updated = [...items];
+    updated[i][field] = val;
+    setItems(updated);
+  }
+  function removeItem(i) { setItems(items.filter((_, idx) => idx !== i)); }
+
+  const quote = km && selectedPackage && tier === "standard"
+    ? calcStandardRate(km, selectedPackage.surcharge, rush)
+    : tier === "cmo" ? 10 : null;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!pickup || !dropoff || !packageType || !name || !phone) return;
+    setSubmitted(true);
+  }
+
+  const inputStyle = { width: "100%", backgroundColor: "#1C1C1C", border: "1px solid #444444", borderRadius: "4px", padding: "0.75rem 1rem", color: "#FFFFFF", fontFamily: "Barlow", fontSize: "1rem", outline: "none" };
+  const labelStyle = { color: "#CCCCCC", fontFamily: "Barlow", fontWeight: 500, fontSize: "0.9rem", display: "block", marginBottom: "0.4rem" };
+
+  return (
+    <main>
+      <section style={{ backgroundColor: "#1C1C1C", padding: "4rem 2rem", textAlign: "center", borderBottom: "4px solid #F5C000" }}>
+        <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "1rem" }}>Fast & Reliable</p>
+        <h1 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#FFFFFF", lineHeight: 1.1, marginBottom: "1rem" }}>Place Your Order</h1>
+        <p style={{ color: "#CCCCCC", fontSize: "1.1rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.7 }}>
+          Fill in your details below. Your rate is calculated automatically based on your addresses.
+        </p>
+      </section>
+
+      <section style={{ backgroundColor: "#111111", padding: "4rem 2rem", borderBottom: "4px solid #F5C000" }}>
+        <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", gap: "3rem", flexWrap: "wrap" }}>
+
+          {submitted ? (
+            <div style={{ flex: 1, backgroundColor: "#1a3a1a", border: "2px solid #2E7D32", borderRadius: "8px", padding: "3rem", textAlign: "center" }}>
+              <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "2rem", color: "#FFFFFF", marginBottom: "1rem" }}>Order Received!</h2>
+              <p style={{ color: "#CCCCCC", fontSize: "1rem", lineHeight: 1.7 }}>
+                Thanks {name} — your order has been received. We will contact you shortly to confirm and send your e-transfer payment link.
+              </p>
+              {quote && (
+                <div style={{ marginTop: "1.5rem", backgroundColor: "#111111", borderRadius: "6px", padding: "1rem" }}>
+                  <p style={{ color: "#AAAAAA", fontSize: "0.9rem" }}>Delivery Fee Due</p>
+                  <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "2.5rem" }}>${quote.toFixed(2)}</p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} style={{ flex: 2, minWidth: "280px", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+
+              <div>
+                <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Delivery Details</h2>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  <div>
+                    <label style={labelStyle}>Pickup Address</label>
+                    <input value={pickup} onChange={e => setPickup(e.target.value)} placeholder="Enter pickup address" style={inputStyle} required />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Drop-off Address</label>
+                    <input value={dropoff} onChange={e => setDropoff(e.target.value)} placeholder="Enter drop-off address" style={inputStyle} required />
+                  </div>
+                  <div>
+                    <label style={labelStyle}>Estimated Distance (km) — for standard rate quote</label>
+                    <input type="number" min="0" step="0.1" onChange={handleKmChange} placeholder="e.g. 12.5" style={inputStyle} />
+                    <p style={{ color: "#666666", fontSize: "0.8rem", marginTop: "0.4rem" }}>Leave blank if both addresses are on CMO reserve land — $10 flat rate applies.</p>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                    <input type="checkbox" id="cmo" onChange={e => setTier(e.target.checked ? "cmo" : (km ? "standard" : null))} style={{ width: "18px", height: "18px", cursor: "pointer" }} />
+                    <label htmlFor="cmo" style={{ ...labelStyle, marginBottom: 0, cursor: "pointer" }}>Both addresses are on CMO reserve land ($10 flat rate)</label>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Package Type</h2>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "0.75rem" }}>
+                  {PACKAGE_TYPES.map(p => (
+                    <button key={p.id} type="button" onClick={() => setPackageType(p.id)} style={{ padding: "0.85rem 1rem", borderRadius: "4px", border: packageType === p.id ? "2px solid #F5C000" : "2px solid #444444", backgroundColor: packageType === p.id ? "#2a2000" : "#1C1C1C", color: packageType === p.id ? "#F5C000" : "#CCCCCC", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1rem", cursor: "pointer", textAlign: "left" }}>
+                      {p.label}
+                      <span style={{ display: "block", fontSize: "0.8rem", color: "#AAAAAA", fontWeight: 400 }}>{p.surcharge === 0 ? "No surcharge" : `+$${p.surcharge} surcharge`}</span>
+                    </button>
+                  ))}
+                </div>
+                {packageType === "smoke" && (
+                  <div style={{ marginTop: "1rem", backgroundColor: "#2a1a00", border: "1px solid #F5C000", borderRadius: "4px", padding: "0.75rem 1rem", color: "#F5C000", fontSize: "0.85rem" }}>
+                    ID verification required at delivery. Order handed only to the person who placed it.
+                  </div>
+                )}
+              </div>
+
+              {isShopping && (
+                <div>
+                  <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "0.5rem" }}>Item List</h2>
+                  <p style={{ color: "#AAAAAA", fontSize: "0.85rem", marginBottom: "1rem" }}>List the items you need. Item cost will be billed separately after pickup.</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+                    {items.map((item, i) => (
+                      <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
+                        <input value={item.name} onChange={e => updateItem(i, "name", e.target.value)} placeholder="Item name" style={{ ...inputStyle, flex: 3 }} />
+                        <input type="number" min="1" value={item.qty} onChange={e => updateItem(i, "qty", e.target.value)} style={{ ...inputStyle, flex: 1, textAlign: "center" }} />
+                        {items.length > 1 && (
+                          <button type="button" onClick={() => removeItem(i)} style={{ background: "none", border: "none", color: "#D42B2B", fontSize: "1.2rem", cursor: "pointer" }}>x</button>
+                        )}
+                      </div>
+                    ))}
+                    <button type="button" onClick={addItem} style={{ alignSelf: "flex-start", background: "none", border: "1px solid #444444", borderRadius: "4px", color: "#CCCCCC", padding: "0.5rem 1rem", fontFamily: "Barlow", fontSize: "0.9rem", cursor: "pointer" }}>+ Add Item</button>
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Delivery Speed</h2>
+                <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+                  {[{ id: false, label: "Standard", desc: "Next available slot" }, { id: true, label: "Same-Day Rush", desc: "+$8 (standard rate only)" }].map(opt => (
+                    <button key={String(opt.id)} type="button" onClick={() => setRush(opt.id)} style={{ padding: "0.85rem 1.5rem", borderRadius: "4px", border: rush === opt.id ? "2px solid #F5C000" : "2px solid #444444", backgroundColor: rush === opt.id ? "#2a2000" : "#1C1C1C", color: rush === opt.id ? "#F5C000" : "#CCCCCC", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1rem", cursor: "pointer", textAlign: "left" }}>
+                      {opt.label}
+                      <span style={{ display: "block", fontSize: "0.8rem", color: "#AAAAAA", fontWeight: 400 }}>{opt.desc}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Your Details</h2>
+                <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                  {[{ label: "Full Name *", val: name, set: setName, type: "text", ph: "Your name" }, { label: "Phone Number *", val: phone, set: setPhone, type: "tel", ph: "(519) 000-0000" }, { label: "Email Address", val: email, set: setEmail, type: "email", ph: "your@email.com" }].map(f => (
+                    <div key={f.label}>
+                      <label style={labelStyle}>{f.label}</label>
+                      <input type={f.type} value={f.val} onChange={e => f.set(e.target.value)} placeholder={f.ph} style={inputStyle} required={f.label.includes("*")} />
+                    </div>
+                  ))}
+                  <div>
+                    <label style={labelStyle}>Delivery Notes</label>
+                    <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3} placeholder="Any special instructions?" style={{ ...inputStyle, resize: "vertical" }} />
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" style={{ backgroundColor: "#F5C000", color: "#1C1C1C", padding: "1rem 2.5rem", borderRadius: "4px", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.2rem", letterSpacing: "1px", border: "none", cursor: "pointer", alignSelf: "flex-start" }}>CONFIRM ORDER</button>
+
+            </form>
+          )}
+
+          <div style={{ flex: 1, minWidth: "240px" }}>
+            <div style={{ backgroundColor: "#1C1C1C", border: "2px solid #F5C000", borderRadius: "8px", padding: "2rem", position: "sticky", top: "90px" }}>
+              <h3 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.5rem" }}>Your Quote</h3>
+              {quote ? (
+                <>
+                  <div style={{ marginBottom: "1rem" }}>
+                    <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Rate Tier</p>
+                    <p style={{ color: tier === "cmo" ? "#2E7D32" : "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.1rem" }}>{tier === "cmo" ? "CMO Community Rate" : "Standard Rate"}</p>
+                  </div>
+                  {tier === "standard" && km && (
+                    <div style={{ marginBottom: "1rem" }}>
+                      <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Distance</p>
+                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.1rem" }}>{km} km</p>
+                    </div>
+                  )}
+                  {selectedPackage && (
+                    <div style={{ marginBottom: "1rem" }}>
+                      <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Package Type</p>
+                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.1rem" }}>{selectedPackage.label}</p>
+                    </div>
+                  )}
+                  {rush && tier === "standard" && (
+                    <div style={{ marginBottom: "1rem" }}>
+                      <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Rush Add-on</p>
+                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.1rem" }}>+$8.00</p>
+                    </div>
+                  )}
+                  <div style={{ borderTop: "1px solid #333333", paddingTop: "1rem", marginTop: "1rem" }}>
+                    <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Delivery Fee</p>
+                    <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "3rem", lineHeight: 1 }}>${quote.toFixed(2)}</p>
+                    <p style={{ color: "#666666", fontSize: "0.8rem", marginTop: "0.5rem" }}>Due upfront via e-transfer</p>
+                  </div>
+                  {isShopping && (
+                    <div style={{ backgroundColor: "#111111", borderRadius: "4px", padding: "0.75rem", marginTop: "1rem" }}>
+                      <p style={{ color: "#AAAAAA", fontSize: "0.8rem" }}>Item costs billed separately after pickup.</p>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div style={{ textAlign: "center", padding: "2rem 0" }}>
+                  <p style={{ color: "#666666", fontSize: "0.9rem", lineHeight: 1.6 }}>Enter your addresses and select a package type to see your quote.</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  );
+}
