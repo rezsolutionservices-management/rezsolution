@@ -31,6 +31,8 @@ export default function Order() {
   const [email, setEmail] = useState("");
   const [notes, setNotes] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [km, setKm] = useState(null);
   const [tier, setTier] = useState(null);
 
@@ -55,10 +57,42 @@ export default function Order() {
     ? calcStandardRate(km, selectedPackage.surcharge, rush)
     : tier === "cmo" ? 10 : null;
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    if (!pickup || !dropoff || !packageType || !name || !phone) return;
-    setSubmitted(true);
+    if (!pickup || !dropoff || !packageType || !name || !phone) {
+      setError("Please fill in all required fields.");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          phone,
+          email,
+          pickup,
+          dropoff,
+          package_type: selectedPackage?.label || packageType,
+          tier: tier || "unknown",
+          fee: quote || 0,
+          rush,
+          notes,
+          items: isShopping ? JSON.stringify(items.filter(i => i.name)) : "",
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setError("Something went wrong. Please try again or contact us directly.");
+      }
+    } catch {
+      setError("Something went wrong. Please try again or contact us directly.");
+    }
+    setLoading(false);
   }
 
   const inputStyle = { width: "100%", backgroundColor: "#1C1C1C", border: "1px solid #444444", borderRadius: "4px", padding: "0.75rem 1rem", color: "#FFFFFF", fontFamily: "Barlow", fontSize: "1rem", outline: "none" };
@@ -93,6 +127,10 @@ export default function Order() {
           ) : (
             <form onSubmit={handleSubmit} style={{ flex: 2, minWidth: "280px", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
 
+              {error && (
+                <div style={{ backgroundColor: "#2a0a0a", border: "1px solid #D42B2B", borderRadius: "4px", padding: "0.75rem 1rem", color: "#D42B2B", fontSize: "0.9rem" }}>{error}</div>
+              )}
+
               <div>
                 <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Delivery Details</h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -122,7 +160,7 @@ export default function Order() {
                   {PACKAGE_TYPES.map(p => (
                     <button key={p.id} type="button" onClick={() => setPackageType(p.id)} style={{ padding: "0.85rem 1rem", borderRadius: "4px", border: packageType === p.id ? "2px solid #F5C000" : "2px solid #444444", backgroundColor: packageType === p.id ? "#2a2000" : "#1C1C1C", color: packageType === p.id ? "#F5C000" : "#CCCCCC", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1rem", cursor: "pointer", textAlign: "left" }}>
                       {p.label}
-                      <span style={{ display: "block", fontSize: "0.8rem", color: "#AAAAAA", fontWeight: 400 }}>{p.surcharge === 0 ? "No surcharge" : `+$${p.surcharge} surcharge`}</span>
+                      <span style={{ display: "block", fontSize: "0.8rem", color: "#AAAAAA", fontWeight: 400 }}>{p.surcharge === 0 ? "No surcharge" : "+" + "$" + p.surcharge + " surcharge"}</span>
                     </button>
                   ))}
                 </div>
@@ -180,7 +218,9 @@ export default function Order() {
                 </div>
               </div>
 
-              <button type="submit" style={{ backgroundColor: "#F5C000", color: "#1C1C1C", padding: "1rem 2.5rem", borderRadius: "4px", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.2rem", letterSpacing: "1px", border: "none", cursor: "pointer", alignSelf: "flex-start" }}>CONFIRM ORDER</button>
+              <button type="submit" disabled={loading} style={{ backgroundColor: "#F5C000", color: "#1C1C1C", padding: "1rem 2.5rem", borderRadius: "4px", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.2rem", letterSpacing: "1px", border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, alignSelf: "flex-start" }}>
+                {loading ? "SUBMITTING..." : "CONFIRM ORDER"}
+              </button>
 
             </form>
           )}
