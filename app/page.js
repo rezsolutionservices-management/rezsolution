@@ -100,6 +100,7 @@ export default function Home() {
           margin: '0 auto',
           flexWrap: 'wrap',
           justifyContent: 'center',
+          alignItems: 'stretch',
         }}>
 
           {/* CMO Community Rate */}
@@ -112,6 +113,8 @@ export default function Home() {
             minWidth: '280px',
             maxWidth: '420px',
             position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
           }}>
             <div style={{
               position: 'absolute',
@@ -150,7 +153,7 @@ export default function Home() {
               $10
             </div>
             <p style={{ color: '#AAAAAA', fontSize: '0.9rem', marginBottom: '1.5rem' }}>flat rate per delivery</p>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: 'auto' }}>
               {[
                 'Both pickup & drop-off on-reserve',
                 'Applies to all 3 CMO nations',
@@ -170,9 +173,11 @@ export default function Home() {
             border: '2px solid #444444',
             borderRadius: '8px',
             padding: '2.5rem',
-            flex: '1',
+             flex: '1',
             minWidth: '280px',
             maxWidth: '420px',
+            display: 'flex',
+            flexDirection: 'column',
           }}>
             <h3 style={{
               fontFamily: 'Barlow Condensed',
@@ -194,7 +199,7 @@ export default function Home() {
               $0.45<span style={{ fontSize: '1.2rem' }}>/km</span>
             </div>
             <p style={{ color: '#AAAAAA', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Distance-based pricing · $10 minimum</p>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: 'auto' }}>
               {[
                 'Southwestern Ontario coverage',
                 'Transparent pricing, no hidden fees',
