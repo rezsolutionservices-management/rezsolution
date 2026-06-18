@@ -10,18 +10,26 @@ export default function Admin() {
   const [loading, setLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
-  function handleLogin(e) {
+  async function handleLogin(e) {
     e.preventDefault();
     setError("");
     setLoading(true);
-    setTimeout(() => {
-      if (username === "admin" && password === "admin") {
+    try {
+      const res = await fetch("/api/admin-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (data.success) {
         setLoggedIn(true);
       } else {
         setError("Invalid username or password.");
       }
-      setLoading(false);
-    }, 1000);
+    } catch {
+      setError("Something went wrong. Please try again.");
+    }
+    setLoading(false);
   }
 
   if (loggedIn) return <Dashboard onLogout={() => setLoggedIn(false)} />;
@@ -54,7 +62,6 @@ export default function Admin() {
             {loading ? "SIGNING IN..." : "SIGN IN"}
           </button>
         </form>
-        <p style={{ color: "#555555", fontSize: "0.8rem", textAlign: "center", marginTop: "1.5rem" }}>Demo credentials: admin / admin</p>
       </div>
     </main>
   );
