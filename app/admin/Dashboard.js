@@ -1,19 +1,11 @@
 ﻿"use client";
 import { useState } from "react";
 
-const SAMPLE_ORDERS = [
-  { id: "ORZ-001", name: "Sarah Antone", type: "Food Order", pickup: "Muncey Rd, COTTFN", dropoff: "River Rd, COTTFN", status: "delivered", tier: "cmo", fee: 10.00, items: ["2x Burger", "1x Fries"] },
-  { id: "ORZ-002", name: "Mike Doxtator", type: "Groceries", pickup: "Walmart, London", dropoff: "Oneida Rd, ONOT", status: "in-progress", tier: "standard", fee: 28.50, items: ["Milk", "Bread", "Eggs", "Chicken"] },
-  { id: "ORZ-003", name: "Tanya Isaac", type: "Pharmacy / Rx", pickup: "Shoppers, Strathroy", dropoff: "Munsee Rd, MDN", status: "new", tier: "standard", fee: 22.00, items: [] },
-  { id: "ORZ-004", name: "Jordan Elijah", type: "Smoke & Snack Run", pickup: "Smoke Shop, COTTFN", dropoff: "Band Rd, COTTFN", status: "new", tier: "cmo", fee: 10.00, items: ["Cigarettes x2", "Chips", "Juice"] },
-  { id: "ORZ-005", name: "Carla Peters", type: "General Parcel", pickup: "London, ON", dropoff: "Thames Rd, COTTFN", status: "delivered", tier: "standard", fee: 31.20, items: [] },
-];
-
 const STATUS_COLORS = { new: "#F5C000", "in-progress": "#4A90D9", delivered: "#2E7D32" };
 const STATUS_BG = { new: "#2a2000", "in-progress": "#0a1a2a", delivered: "#1a3a1a" };
 
 export default function Dashboard({ onLogout }) {
-  const [orders, setOrders] = useState(SAMPLE_ORDERS);
+  const [orders, setOrders] = useState([]);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState(null);
@@ -68,26 +60,31 @@ export default function Dashboard({ onLogout }) {
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          {filtered.map(order => (
+          {filtered.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "4rem", color: "#555555" }}>
+              <p style={{ fontFamily: "Barlow Condensed", fontSize: "1.5rem", marginBottom: "0.5rem" }}>No orders yet</p>
+              <p style={{ fontSize: "0.9rem" }}>Orders placed through your site will appear here.</p>
+            </div>
+          ) : filtered.map(order => (
             <div key={order.id} style={{ backgroundColor: "#1C1C1C", border: "1px solid #333333", borderRadius: "8px", overflow: "hidden" }}>
               <div style={{ padding: "1.25rem 1.5rem", display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
                 <span style={{ fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "0.95rem", color: "#F5C000", minWidth: "90px" }}>{order.id}</span>
                 <span style={{ color: "#FFFFFF", fontWeight: 500, flex: 1, minWidth: "120px" }}>{order.name}</span>
                 <span style={{ color: "#AAAAAA", fontSize: "0.9rem", flex: 1, minWidth: "140px" }}>{order.type}</span>
-                <span style={{ color: "#AAAAAA", fontSize: "0.85rem", flex: 2, minWidth: "200px" }}>{order.pickup} → {order.dropoff}</span>
+                <span style={{ color: "#AAAAAA", fontSize: "0.85rem", flex: 2, minWidth: "200px" }}>{order.pickup} to {order.dropoff}</span>
                 <span style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, minWidth: "70px" }}>${order.fee.toFixed(2)}</span>
                 <select value={order.status} onChange={e => updateStatus(order.id, e.target.value)} style={{ backgroundColor: STATUS_BG[order.status], border: "1px solid " + STATUS_COLORS[order.status], borderRadius: "4px", color: STATUS_COLORS[order.status], padding: "0.4rem 0.75rem", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer", outline: "none" }}>
                   <option value="new">New</option>
                   <option value="in-progress">In Progress</option>
                   <option value="delivered">Delivered</option>
                 </select>
-                {order.items.length > 0 && (
+                {order.items && order.items.length > 0 && (
                   <button onClick={() => setExpanded(expanded === order.id ? null : order.id)} style={{ background: "none", border: "1px solid #444444", borderRadius: "4px", color: "#AAAAAA", padding: "0.4rem 0.75rem", fontFamily: "Barlow", fontSize: "0.85rem", cursor: "pointer" }}>
                     {expanded === order.id ? "Hide Items" : "View Items"}
                   </button>
                 )}
               </div>
-              {expanded === order.id && order.items.length > 0 && (
+              {expanded === order.id && order.items && order.items.length > 0 && (
                 <div style={{ backgroundColor: "#111111", borderTop: "1px solid #333333", padding: "1rem 1.5rem" }}>
                   <p style={{ color: "#AAAAAA", fontSize: "0.85rem", marginBottom: "0.5rem" }}>Items:</p>
                   <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
@@ -99,9 +96,6 @@ export default function Dashboard({ onLogout }) {
               )}
             </div>
           ))}
-          {filtered.length === 0 && (
-            <div style={{ textAlign: "center", padding: "3rem", color: "#555555" }}>No orders found.</div>
-          )}
         </div>
 
       </div>
