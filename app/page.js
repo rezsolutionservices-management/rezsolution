@@ -197,7 +197,7 @@ export default function Home() {
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {[
                 'Southwestern Ontario coverage',
-                '30% margin included in quote',
+                'Transparent pricing, no hidden fees',
                 'Package surcharges from $2–$6',
                 'Same-day rush add-on +$8',
               ].map(item => (
