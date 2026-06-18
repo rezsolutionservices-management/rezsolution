@@ -193,7 +193,7 @@ export default function Home() {
             }}>
               $0.45<span style={{ fontSize: '1.2rem' }}>/km</span>
             </div>
-            <p style={{ color: '#AAAAAA', fontSize: '0.9rem', marginBottom: '1.5rem' }}>+ $30/hr labour · $10 minimum</p>
+            <p style={{ color: '#AAAAAA', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Distance-based pricing · $10 minimum</p>
             <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               {[
                 'Southwestern Ontario coverage',
