@@ -5,11 +5,15 @@ export default function Business() {
   const [activeTab, setActiveTab] = useState("business");
   const [bizForm, setBizForm] = useState({ name: "", company: "", email: "", phone: "", volume: "", notes: "" });
   const [eateryForm, setEateryForm] = useState({ name: "", eatery: "", phone: "", email: "", nation: "", type: "", volume: "", hours: "", food: "", billing: "" });
+  const [medForm, setMedForm] = useState({ name: "", business: "", type: "", phone: "", email: "", area: "", delivery_type: "", frequency: "", billing: "", notes: "" });
   const [bizSubmitted, setBizSubmitted] = useState(false);
   const [eaterySubmitted, setEaterySubmitted] = useState(false);
+  const [medSubmitted, setMedSubmitted] = useState(false);
 
   function handleBizChange(e) { setBizForm({ ...bizForm, [e.target.name]: e.target.value }); }
   function handleEateryChange(e) { setEateryForm({ ...eateryForm, [e.target.name]: e.target.value }); }
+  function handleMedChange(e) { setMedForm({ ...medForm, [e.target.name]: e.target.value }); }
+
   async function handleBizSubmit(e) {
     e.preventDefault();
     try {
@@ -34,6 +38,18 @@ export default function Business() {
     } catch { setEaterySubmitted(true); }
   }
 
+  async function handleMedSubmit(e) {
+    e.preventDefault();
+    try {
+      const res = await fetch("https://formspree.io/f/mpqegvwe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...medForm, _subject: "New Medical Partner Application" }),
+      });
+      if (res.ok) setMedSubmitted(true);
+    } catch { setMedSubmitted(true); }
+  }
+
   const inputStyle = { width: "100%", backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.75rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "1rem", outline: "none", marginTop: "0.4rem" };
   const labelStyle = { color: "#555555", fontFamily: "Barlow, sans-serif", fontWeight: 500, fontSize: "0.9rem", display: "block" };
   const fieldStyle = { display: "flex", flexDirection: "column", gap: "0.25rem" };
@@ -46,15 +62,19 @@ export default function Business() {
         <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "1rem" }}>Partner With Us</p>
         <h1 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#FFFFFF", lineHeight: 1.1, marginBottom: "1rem" }}>Business Accounts</h1>
         <p style={{ color: "#CCCCCC", fontSize: "1.1rem", maxWidth: "550px", margin: "0 auto", lineHeight: 1.7 }}>
-          Streamlined delivery for businesses and CMO food partners. Regular pickups, flexible billing, and a direct line to your driver.
+          Streamlined delivery for businesses, CMO food partners, and medical providers. Regular pickups, flexible billing, and a direct line to your driver.
         </p>
       </section>
 
       {/* Tabs */}
       <section style={{ backgroundColor: "#FFFFFF", padding: "0 2rem", borderBottom: "1px solid #E5E7EB" }}>
-        <div style={{ maxWidth: "900px", margin: "0 auto", display: "flex" }}>
-          {[{ id: "business", label: "Business Account" }, { id: "eatery", label: "CMO Eatery Partner" }].map(tab => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ padding: "1.25rem 2rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "1px", border: "none", borderBottom: activeTab === tab.id ? "3px solid #F5C000" : "3px solid transparent", backgroundColor: "transparent", color: activeTab === tab.id ? "#0A1628" : "#999999", cursor: "pointer" }}>
+        <div style={{ maxWidth: "900px", margin: "0 auto", display: "flex", overflowX: "auto" }}>
+          {[
+            { id: "business", label: "Business Account" },
+            { id: "eatery", label: "CMO Eatery Partner" },
+            { id: "medical", label: "Medical & Pharmacy" },
+          ].map(tab => (
+            <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ padding: "1.25rem 1.5rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "1px", border: "none", borderBottom: activeTab === tab.id ? "3px solid #F5C000" : "3px solid transparent", backgroundColor: "transparent", color: activeTab === tab.id ? "#0A1628" : "#999999", cursor: "pointer", whiteSpace: "nowrap" }}>
               {tab.label}
             </button>
           ))}
@@ -178,6 +198,112 @@ export default function Business() {
                         <option value="">Select...</option>
                         <option>Per delivery</option><option>Weekly</option><option>Monthly</option>
                       </select>
+                    </div>
+                    <button type="submit" style={{ backgroundColor: "#F5C000", color: "#0A1628", padding: "0.9rem 2rem", borderRadius: "4px", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "1px", border: "none", cursor: "pointer", alignSelf: "flex-start" }}>SUBMIT APPLICATION</button>
+                  </form>
+                )}
+              </div>
+            </div>
+          )}
+
+          {activeTab === "medical" && (
+            <div style={{ display: "flex", gap: "4rem", flexWrap: "wrap" }}>
+              <div style={{ flex: "1", minWidth: "240px" }}>
+                <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "2rem", color: "#0A1628", marginBottom: "1rem" }}>Medical & Pharmacy Partner Program</h2>
+                <p style={{ color: "#666666", fontSize: "0.95rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
+                  A dedicated courier service for clinics, pharmacies, band health centres, and home care providers. Reliable, discreet, and built for time-sensitive medical deliveries.
+                </p>
+                {[
+                  "Prescription pickup and delivery",
+                  "Medical document courier",
+                  "Supply and equipment runs",
+                  "Priority delivery available",
+                  "Discreet and professional",
+                  "Flexible scheduling for regular runs",
+                  "Direct line to your driver",
+                ].map(item => (
+                  <div key={item} style={{ display: "flex", gap: "0.5rem", marginBottom: "0.6rem" }}>
+                    <span style={{ color: "#F5C000", fontWeight: 700 }}>+</span>
+                    <span style={{ color: "#555555", fontSize: "0.95rem" }}>{item}</span>
+                  </div>
+                ))}
+                <div style={{ backgroundColor: "#EFF6FF", border: "1px solid #2563EB", borderRadius: "6px", padding: "1rem", marginTop: "1.5rem" }}>
+                  <p style={{ color: "#1E40AF", fontSize: "0.85rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700 }}>SERVING CMO HEALTH CENTRES</p>
+                  <p style={{ color: "#1E40AF", fontSize: "0.85rem", marginTop: "0.25rem" }}>We proudly serve band health centres and medical providers across all three CMO nations at the community rate.</p>
+                </div>
+              </div>
+              <div style={{ flex: "2", minWidth: "280px" }}>
+                {medSubmitted ? (
+                  <div style={{ backgroundColor: "#ECFDF5", border: "2px solid #059669", borderRadius: "8px", padding: "2.5rem", textAlign: "center" }}>
+                    <h3 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.5rem", color: "#0A1628", marginBottom: "0.5rem" }}>Application Received!</h3>
+                    <p style={{ color: "#666666" }}>Thanks {medForm.name} — we will be in touch to discuss your medical delivery needs.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleMedSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem", backgroundColor: "#F4F5F7", padding: "2rem", borderRadius: "8px", border: "1px solid #E5E7EB" }}>
+                    <h3 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.5rem", color: "#0A1628" }}>Medical Partner Sign Up</h3>
+                    {[{ name: "name", label: "Contact Name", type: "text" }, { name: "business", label: "Business / Facility Name", type: "text" }, { name: "phone", label: "Phone Number", type: "tel" }, { name: "email", label: "Email Address", type: "email" }].map(f => (
+                      <div key={f.name} style={fieldStyle}>
+                        <label style={labelStyle}>{f.label}</label>
+                        <input type={f.type} name={f.name} value={medForm[f.name]} onChange={handleMedChange} style={inputStyle} required />
+                      </div>
+                    ))}
+                    <div style={fieldStyle}>
+                      <label style={labelStyle}>Facility Type</label>
+                      <select name="type" value={medForm.type} onChange={handleMedChange} style={inputStyle}>
+                        <option value="">Select...</option>
+                        <option>Pharmacy</option>
+                        <option>Medical Clinic</option>
+                        <option>Band Health Centre</option>
+                        <option>Home Care Provider</option>
+                        <option>Hospital</option>
+                        <option>Other</option>
+                      </select>
+                    </div>
+                    <div style={fieldStyle}>
+                      <label style={labelStyle}>Service Area</label>
+                      <select name="area" value={medForm.area} onChange={handleMedChange} style={inputStyle}>
+                        <option value="">Select...</option>
+                        <option>Chippewas of the Thames First Nation</option>
+                        <option>Munsee-Delaware Nation</option>
+                        <option>Oneida Nation of the Thames</option>
+                        <option>Strathroy</option>
+                        <option>London</option>
+                        <option>Sarnia</option>
+                        <option>Other Southwestern Ontario</option>
+                      </select>
+                    </div>
+                    <div style={fieldStyle}>
+                      <label style={labelStyle}>Type of Deliveries Needed</label>
+                      <select name="delivery_type" value={medForm.delivery_type} onChange={handleMedChange} style={inputStyle}>
+                        <option value="">Select...</option>
+                        <option>Prescription Delivery</option>
+                        <option>Medical Documents</option>
+                        <option>Medical Supplies</option>
+                        <option>Multiple Types</option>
+                      </select>
+                    </div>
+                    <div style={fieldStyle}>
+                      <label style={labelStyle}>Estimated Weekly Deliveries</label>
+                      <select name="frequency" value={medForm.frequency} onChange={handleMedChange} style={inputStyle}>
+                        <option value="">Select...</option>
+                        <option>1-5</option>
+                        <option>6-15</option>
+                        <option>16-30</option>
+                        <option>30+</option>
+                      </select>
+                    </div>
+                    <div style={fieldStyle}>
+                      <label style={labelStyle}>Preferred Billing</label>
+                      <select name="billing" value={medForm.billing} onChange={handleMedChange} style={inputStyle}>
+                        <option value="">Select...</option>
+                        <option>Per delivery</option>
+                        <option>Weekly</option>
+                        <option>Monthly</option>
+                      </select>
+                    </div>
+                    <div style={fieldStyle}>
+                      <label style={labelStyle}>Additional Notes</label>
+                      <textarea name="notes" value={medForm.notes} onChange={handleMedChange} rows={3} style={{ ...inputStyle, resize: "vertical" }} placeholder="Any specific requirements or questions?" />
                     </div>
                     <button type="submit" style={{ backgroundColor: "#F5C000", color: "#0A1628", padding: "0.9rem 2rem", borderRadius: "4px", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "1px", border: "none", cursor: "pointer", alignSelf: "flex-start" }}>SUBMIT APPLICATION</button>
                   </form>
