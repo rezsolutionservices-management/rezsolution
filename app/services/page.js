@@ -18,8 +18,8 @@
             { color: "#2563EB", icon: "🍔", label: "Food Order", surcharge: "+$3", desc: "Hot meals from local restaurants, home kitchens, or CMO eatery partners. Two-step payment — delivery fee upfront, food cost billed after pickup.", note: null },
             { color: "#D97706", icon: "🏪", label: "Smoke & Snack Run", surcharge: "+$2", desc: "Tobacco products and convenience snacks delivered to your door. Item list submitted at order, delivery fee paid upfront.", note: "ID verification required at delivery. Order handed only to the person who placed it." },
             { color: "#059669", icon: "🛒", label: "Groceries", surcharge: "+$3", desc: "Full grocery shopping runs. Submit your list, pay delivery fee upfront, grocery cost billed separately after pickup.", note: null },
-            { color: "#374151", icon: "📦", label: "General Parcel", surcharge: "+$2", desc: "Packages, courier items, and general goods. Pick up from one address and drop off at another — straightforward and reliable.", note: null },
-            { color: "#DC2626", icon: "💊", label: "Pharmacy / Rx", surcharge: "+$3", desc: "Prescription pickup and delivery from your pharmacy. We handle the pickup so you don't have to make the trip.", note: null },
+            { color: "#374151", icon: "📦", label: "General Parcel", surcharge: "$0", desc: "Packages, courier items, and general goods. Pick up from one address and drop off at another — straightforward and reliable.", note: null },
+            { color: "#DC2626", icon: "💊", label: "Pharmacy / Rx", surcharge: "$0", desc: "Prescription pickup and delivery from your pharmacy. We handle the pickup so you don't have to make the trip.", note: null },
             { color: "#7C3AED", icon: "📄", label: "Documents", surcharge: "$0", desc: "Secure document delivery — contracts, forms, legal papers. No package surcharge on documents.", note: null },
           ].map(service => (
             <div key={service.label} style={{ backgroundColor: "#F4F5F7", border: "1px solid #E5E7EB", borderRadius: "8px", padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>

@@ -7,8 +7,8 @@ const PACKAGE_TYPES = [
   { id: "food", label: "Food Order", surcharge: 3 },
   { id: "smoke", label: "Smoke & Snack Run", surcharge: 2 },
   { id: "grocery", label: "Groceries", surcharge: 3 },
-  { id: "parcel", label: "General Parcel", surcharge: 2 },
-  { id: "pharmacy", label: "Pharmacy / Rx", surcharge: 3 },
+  { id: "parcel", label: "General Parcel", surcharge: 0 },
+  { id: "pharmacy", label: "Pharmacy / Rx", surcharge: 0 },
   { id: "documents", label: "Documents", surcharge: 0 },
 ];
 
