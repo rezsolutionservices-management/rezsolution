@@ -1,8 +1,16 @@
 ﻿export default function Services() {
+  const services = [
+    { color: "#2563EB", icon: "🍔", label: "Food Order", surcharge: "+$3", desc: "Hot meals from local restaurants, home kitchens, or CMO eatery partners. Two-step payment — delivery fee upfront, food cost billed after pickup.", note: null },
+    { color: "#D97706", icon: "🏪", label: "Smoke & Snack Run", surcharge: "+$2", desc: "Tobacco products and convenience snacks delivered to your door. Item list submitted at order, delivery fee paid upfront.", note: "ID verification required at delivery. Order handed only to the person who placed it." },
+    { color: "#059669", icon: "🛒", label: "Groceries", surcharge: "+$3", desc: "Full grocery shopping runs. Submit your list, pay delivery fee upfront, grocery cost billed separately after pickup.", note: null },
+    { color: "#374151", icon: "📦", label: "General Parcel", surcharge: "$0", desc: "Packages, courier items, and general goods. Pick up from one address and drop off at another — straightforward and reliable.", note: null },
+    { color: "#DC2626", icon: "💊", label: "Pharmacy / Rx", surcharge: "$0", desc: "Prescription pickup and delivery from your pharmacy. We handle the pickup so you don't have to make the trip.", note: null },
+    { color: "#7C3AED", icon: "📄", label: "Documents", surcharge: "$0", desc: "Secure document delivery — contracts, forms, legal papers. No package surcharge on documents.", note: null },
+  ];
+
   return (
     <main style={{ backgroundColor: "#F4F5F7" }}>
 
-      {/* Hero */}
       <section style={{ backgroundColor: "#0A1628", padding: "4rem 2rem", textAlign: "center", borderBottom: "4px solid #F5C000" }}>
         <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "1rem" }}>What We Offer</p>
         <h1 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#FFFFFF", lineHeight: 1.1, marginBottom: "1rem" }}>Our Delivery Services</h1>
@@ -11,17 +19,9 @@
         </p>
       </section>
 
-      {/* Service Cards */}
       <section style={{ backgroundColor: "#FFFFFF", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", maxWidth: "1100px", margin: "0 auto" }}>
-          {[
-            { color: "#2563EB", icon: "??", label: "Food Order", surcharge: "+$3", desc: "Hot meals from local restaurants, home kitchens, or CMO eatery partners. Two-step payment — delivery fee upfront, food cost billed after pickup.", note: null },
-            { color: "#D97706", icon: "??", label: "Smoke & Snack Run", surcharge: "+$2", desc: "Tobacco products and convenience snacks delivered to your door. Item list submitted at order, delivery fee paid upfront.", note: "ID verification required at delivery. Order handed only to the person who placed it." },
-            { color: "#059669", icon: "??", label: "Groceries", surcharge: "+$3", desc: "Full grocery shopping runs. Submit your list, pay delivery fee upfront, grocery cost billed separately after pickup.", note: null },
-            { color: "#374151", icon: "??", label: "General Parcel", surcharge: "$0", desc: "Packages, courier items, and general goods. Pick up from one address and drop off at another — straightforward and reliable.", note: null },
-            { color: "#DC2626", icon: "??", label: "Pharmacy / Rx", surcharge: "$0", desc: "Prescription pickup and delivery from your pharmacy. We handle the pickup so you don't have to make the trip.", note: null },
-            { color: "#7C3AED", icon: "??", label: "Documents", surcharge: "$0", desc: "Secure document delivery — contracts, forms, legal papers. No package surcharge on documents.", note: null },
-          ].map(service => (
+          {services.map(service => (
             <div key={service.label} style={{ backgroundColor: "#F4F5F7", border: "1px solid #E5E7EB", borderRadius: "8px", padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
@@ -43,12 +43,11 @@
             </div>
           ))}
 
-          {/* Medical Courier Card */}
           <div style={{ backgroundColor: "#F4F5F7", border: "1px solid #E5E7EB", borderRadius: "8px", padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                 <div style={{ width: "44px", height: "44px", backgroundColor: "#DC262618", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.3rem" }}>
-                  ??
+                  🏥
                 </div>
                 <h3 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.3rem", color: "#0A1628" }}>Medical Courier</h3>
               </div>
@@ -67,7 +66,6 @@
         </div>
       </section>
 
-      {/* How It Works */}
       <section style={{ backgroundColor: "#F4F5F7", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "0.75rem" }}>Simple Process</p>
@@ -90,7 +88,6 @@
         </div>
       </section>
 
-      {/* CMO Strip */}
       <section style={{ backgroundColor: "#D42B2B", padding: "3rem 2rem", textAlign: "center" }}>
         <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(1.5rem, 3vw, 2.5rem)", color: "#FFFFFF", marginBottom: "0.75rem" }}>Proudly Serving CMO Territory</h2>
         <p style={{ color: "#FFDDDD", fontSize: "1rem", marginBottom: "2rem" }}>Community rate applies when both pickup and drop-off are on-reserve within any CMO nation.</p>
