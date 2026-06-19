@@ -165,7 +165,7 @@
           }}>
             <h3 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "0.5rem" }}>Standard Rate</h3>
             <div style={{ fontSize: "2.5rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, color: "#0A1628", lineHeight: 1, marginBottom: "0.25rem" }}>
-              $0.45<span style={{ fontSize: "1.2rem" }}>/km</span>
+              $0.38<span style={{ fontSize: "1.2rem" }}>/km</span>
             </div>
             <p style={{ color: "#666666", fontSize: "0.9rem", marginBottom: "1.5rem" }}>Distance-based pricing · $10 minimum</p>
             <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "auto" }}>
