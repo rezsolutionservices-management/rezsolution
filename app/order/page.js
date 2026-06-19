@@ -1,4 +1,4 @@
-"use client";
+ï»¿"use client";
 import { useState, useRef, useEffect } from "react";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import { point } from "@turf/helpers";
@@ -255,7 +255,7 @@ export default function Order() {
             <div style={{ flex: 1, backgroundColor: "#ECFDF5", border: "2px solid #059669", borderRadius: "8px", padding: "3rem", textAlign: "center" }}>
               <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "2rem", color: "#0A1628", marginBottom: "1rem" }}>Order Received!</h2>
               <p style={{ color: "#666666", fontSize: "1rem", lineHeight: 1.7 }}>
-                Thanks {name} — your order has been received. We will contact you shortly to confirm and send your e-transfer payment link.
+                Thanks {name} â€” your order has been received. We will contact you shortly to confirm and send your e-transfer payment link.
               </p>
               {quote && (
                 <div style={{ marginTop: "1.5rem", backgroundColor: "#FFFFFF", borderRadius: "6px", padding: "1rem", border: "1px solid #E5E7EB" }}>
@@ -296,13 +296,13 @@ export default function Order() {
 
                   {cmoDetected && (
                     <div style={{ backgroundColor: "#ECFDF5", border: "2px solid #059669", borderRadius: "4px", padding: "0.75rem 1rem", color: "#059669", fontSize: "0.9rem", fontWeight: 500 }}>
-                      CMO Community Rate detected — $10 flat rate applied automatically!
+                      CMO Community Rate detected â€” $10 flat rate applied automatically!
                     </div>
                   )}
 
                   {km && !cmoDetected && (
                     <div style={{ backgroundColor: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: "4px", padding: "0.75rem 1rem", color: "#1E40AF", fontSize: "0.9rem" }}>
-                      Distance calculated: <strong>{km} km</strong> — quote updated automatically.
+                      Distance calculated: <strong>{km} km</strong> â€” quote updated automatically.
                     </div>
                   )}
                 </div>

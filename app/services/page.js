@@ -1,4 +1,4 @@
-export default function Services() {
+ï»¿export default function Services() {
   return (
     <main style={{ backgroundColor: "#F4F5F7" }}>
 
@@ -7,7 +7,7 @@ export default function Services() {
         <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "1rem" }}>What We Offer</p>
         <h1 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#FFFFFF", lineHeight: 1.1, marginBottom: "1rem" }}>Our Delivery Services</h1>
         <p style={{ color: "#CCCCCC", fontSize: "1.1rem", maxWidth: "550px", margin: "0 auto", lineHeight: 1.7 }}>
-          Six delivery types, one reliable operator. CMO community rate or standard — your quote is calculated automatically.
+          Six delivery types, one reliable operator. CMO community rate or standard â€” your quote is calculated automatically.
         </p>
       </section>
 
@@ -15,12 +15,12 @@ export default function Services() {
       <section style={{ backgroundColor: "#FFFFFF", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", maxWidth: "1100px", margin: "0 auto" }}>
           {[
-            { color: "#2563EB", icon: "??", label: "Food Order", surcharge: "+$3", desc: "Hot meals from local restaurants, home kitchens, or CMO eatery partners. Two-step payment — delivery fee upfront, food cost billed after pickup.", note: null },
+            { color: "#2563EB", icon: "??", label: "Food Order", surcharge: "+$3", desc: "Hot meals from local restaurants, home kitchens, or CMO eatery partners. Two-step payment â€” delivery fee upfront, food cost billed after pickup.", note: null },
             { color: "#D97706", icon: "??", label: "Smoke & Snack Run", surcharge: "+$2", desc: "Tobacco products and convenience snacks delivered to your door. Item list submitted at order, delivery fee paid upfront.", note: "ID verification required at delivery. Order handed only to the person who placed it." },
             { color: "#059669", icon: "??", label: "Groceries", surcharge: "+$3", desc: "Full grocery shopping runs. Submit your list, pay delivery fee upfront, grocery cost billed separately after pickup.", note: null },
-            { color: "#374151", icon: "??", label: "General Parcel", surcharge: "$0", desc: "Packages, courier items, and general goods. Pick up from one address and drop off at another — straightforward and reliable.", note: null },
+            { color: "#374151", icon: "??", label: "General Parcel", surcharge: "$0", desc: "Packages, courier items, and general goods. Pick up from one address and drop off at another â€” straightforward and reliable.", note: null },
             { color: "#DC2626", icon: "??", label: "Pharmacy / Rx", surcharge: "$0", desc: "Prescription pickup and delivery from your pharmacy. We handle the pickup so you don't have to make the trip.", note: null },
-            { color: "#7C3AED", icon: "??", label: "Documents", surcharge: "$0", desc: "Secure document delivery — contracts, forms, legal papers. No package surcharge on documents.", note: null },
+            { color: "#7C3AED", icon: "??", label: "Documents", surcharge: "$0", desc: "Secure document delivery â€” contracts, forms, legal papers. No package surcharge on documents.", note: null },
           ].map(service => (
             <div key={service.label} style={{ backgroundColor: "#F4F5F7", border: "1px solid #E5E7EB", borderRadius: "8px", padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
