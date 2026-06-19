@@ -1,5 +1,5 @@
 ﻿"use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const PACKAGE_TYPES = [
   { id: "food", label: "Food Order", surcharge: 3 },
@@ -20,9 +20,91 @@ function calcStandardRate(km, packageSurcharge, rush) {
   return Math.max(10, Math.round(total * 100) / 100);
 }
 
+function useGoogleMapsScript(apiKey) {
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    if (window.google) { setLoaded(true); return; }
+    const script = document.createElement("script");
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
+    script.async = true;
+    script.onload = () => setLoaded(true);
+    document.head.appendChild(script);
+  }, [apiKey]);
+  return loaded;
+}
+
+function AddressInput({ label, placeholder, onSelect, value }) {
+  const inputRef = useRef(null);
+  const autocompleteRef = useRef(null);
+
+  useEffect(() => {
+    if (!window.google || !inputRef.current) return;
+    autocompleteRef.current = new window.google.maps.places.Autocomplete(inputRef.current, {
+      componentRestrictions: { country: "ca" },
+      fields: ["formatted_address", "geometry"],
+    });
+    autocompleteRef.current.addListener("place_changed", () => {
+      const place = autocompleteRef.current.getPlace();
+      if (place.formatted_address) {
+        onSelect(place.formatted_address, place.geometry?.location);
+      }
+    });
+  }, []);
+
+  return (
+    <div>
+      <label style={{ color: "#555555", fontFamily: "Barlow, sans-serif", fontWeight: 500, fontSize: "0.9rem", display: "block", marginBottom: "0.4rem" }}>{label}</label>
+      <input ref={inputRef} defaultValue={value} placeholder={placeholder} style={{ width: "100%", backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.75rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "1rem", outline: "none" }} />
+    </div>
+  );
+}
+
+function MapPreview({ pickupLocation, dropoffLocation, apiKey }) {
+  const mapRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+  const directionsRendererRef = useRef(null);
+
+  useEffect(() => {
+    if (!window.google || !mapRef.current) return;
+    if (!mapInstanceRef.current) {
+      mapInstanceRef.current = new window.google.maps.Map(mapRef.current, {
+        zoom: 10,
+        center: { lat: 42.9, lng: -81.5 },
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+      });
+      directionsRendererRef.current = new window.google.maps.DirectionsRenderer();
+      directionsRendererRef.current.setMap(mapInstanceRef.current);
+    }
+
+    if (pickupLocation && dropoffLocation) {
+      const directionsService = new window.google.maps.DirectionsService();
+      directionsService.route({
+        origin: pickupLocation,
+        destination: dropoffLocation,
+        travelMode: window.google.maps.TravelMode.DRIVING,
+      }, (result, status) => {
+        if (status === "OK") {
+          directionsRendererRef.current.setDirections(result);
+        }
+      });
+    }
+  }, [pickupLocation, dropoffLocation]);
+
+  return (
+    <div ref={mapRef} style={{ width: "100%", height: "300px", borderRadius: "8px", border: "1px solid #E5E7EB", marginTop: "1rem" }} />
+  );
+}
+
 export default function Order() {
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const mapsLoaded = useGoogleMapsScript(apiKey);
+
   const [pickup, setPickup] = useState("");
   const [dropoff, setDropoff] = useState("");
+  const [pickupLocation, setPickupLocation] = useState(null);
+  const [dropoffLocation, setDropoffLocation] = useState(null);
   const [packageType, setPackageType] = useState("");
   const [rush, setRush] = useState(false);
   const [items, setItems] = useState([{ name: "", qty: 1 }]);
@@ -38,12 +120,44 @@ export default function Order() {
 
   const selectedPackage = PACKAGE_TYPES.find(p => p.id === packageType);
   const isShopping = SHOPPING_TYPES.includes(packageType);
+  const showMap = mapsLoaded && (pickupLocation || dropoffLocation);
 
-  function handleKmChange(e) {
-    const val = parseFloat(e.target.value);
-    setKm(isNaN(val) ? null : val);
-    setTier(val > 0 ? "standard" : null);
+  const quote = km && selectedPackage && tier === "standard"
+    ? calcStandardRate(km, selectedPackage.surcharge, rush)
+    : tier === "cmo" ? 10 : null;
+
+  function handlePickupSelect(address, location) {
+    setPickup(address);
+    setPickupLocation(location);
   }
+
+  function handleDropoffSelect(address, location) {
+    setDropoff(address);
+    setDropoffLocation(location);
+  }
+
+  function calculateDistance() {
+    if (!pickupLocation || !dropoffLocation || !window.google) return;
+    const service = new window.google.maps.DistanceMatrixService();
+    service.getDistanceMatrix({
+      origins: [pickupLocation],
+      destinations: [dropoffLocation],
+      travelMode: window.google.maps.TravelMode.DRIVING,
+    }, (response, status) => {
+      if (status === "OK") {
+        const distanceMeters = response.rows[0].elements[0].distance.value;
+        const distanceKm = distanceMeters / 1000;
+        setKm(Math.round(distanceKm * 10) / 10);
+        if (!tier) setTier("standard");
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (pickupLocation && dropoffLocation) {
+      calculateDistance();
+    }
+  }, [pickupLocation, dropoffLocation]);
 
   function addItem() { setItems([...items, { name: "", qty: 1 }]); }
   function updateItem(i, field, val) {
@@ -52,10 +166,6 @@ export default function Order() {
     setItems(updated);
   }
   function removeItem(i) { setItems(items.filter((_, idx) => idx !== i)); }
-
-  const quote = km && selectedPackage && tier === "standard"
-    ? calcStandardRate(km, selectedPackage.surcharge, rush)
-    : tier === "cmo" ? 10 : null;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -132,19 +242,34 @@ export default function Order() {
               <div style={{ backgroundColor: "#F4F5F7", borderRadius: "8px", padding: "1.5rem", border: "1px solid #E5E7EB" }}>
                 <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "1.25rem" }}>Delivery Details</h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                  <div>
-                    <label style={labelStyle}>Pickup Address</label>
-                    <input value={pickup} onChange={e => setPickup(e.target.value)} placeholder="Enter pickup address" style={inputStyle} required />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Drop-off Address</label>
-                    <input value={dropoff} onChange={e => setDropoff(e.target.value)} placeholder="Enter drop-off address" style={inputStyle} required />
-                  </div>
-                  <div>
-                    <label style={labelStyle}>Estimated Distance (km) — for standard rate quote</label>
-                    <input type="number" min="0" step="0.1" onChange={handleKmChange} placeholder="e.g. 12.5" style={inputStyle} />
-                    <p style={{ color: "#999999", fontSize: "0.8rem", marginTop: "0.4rem" }}>Leave blank if both addresses are on CMO reserve land — $10 flat rate applies.</p>
-                  </div>
+                  {mapsLoaded ? (
+                    <>
+                      <AddressInput label="Pickup Address" placeholder="Start typing an address..." onSelect={handlePickupSelect} value={pickup} />
+                      <AddressInput label="Drop-off Address" placeholder="Start typing an address..." onSelect={handleDropoffSelect} value={dropoff} />
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                        <label style={labelStyle}>Pickup Address</label>
+                        <input value={pickup} onChange={e => setPickup(e.target.value)} placeholder="Enter pickup address" style={inputStyle} />
+                      </div>
+                      <div>
+                        <label style={labelStyle}>Drop-off Address</label>
+                        <input value={dropoff} onChange={e => setDropoff(e.target.value)} placeholder="Enter drop-off address" style={inputStyle} />
+                      </div>
+                    </>
+                  )}
+
+                  {showMap && (
+                    <MapPreview pickupLocation={pickupLocation} dropoffLocation={dropoffLocation} apiKey={apiKey} />
+                  )}
+
+                  {km && (
+                    <div style={{ backgroundColor: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: "4px", padding: "0.75rem 1rem", color: "#1E40AF", fontSize: "0.9rem" }}>
+                      Distance calculated: <strong>{km} km</strong> — quote updated automatically.
+                    </div>
+                  )}
+
                   <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                     <input type="checkbox" id="cmo" onChange={e => setTier(e.target.checked ? "cmo" : (km ? "standard" : null))} style={{ width: "18px", height: "18px", cursor: "pointer" }} />
                     <label htmlFor="cmo" style={{ ...labelStyle, marginBottom: 0, cursor: "pointer" }}>Both addresses are on CMO reserve land ($10 flat rate)</label>
@@ -262,7 +387,7 @@ export default function Order() {
                 </>
               ) : (
                 <div style={{ textAlign: "center", padding: "2rem 0" }}>
-                  <p style={{ color: "#666666", fontSize: "0.9rem", lineHeight: 1.6 }}>Enter your addresses and select a package type to see your quote.</p>
+                  <p style={{ color: "#666666", fontSize: "0.9rem", lineHeight: 1.6 }}>Enter your addresses to see your quote automatically.</p>
                 </div>
               )}
             </div>
