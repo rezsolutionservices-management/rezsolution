@@ -10,8 +10,29 @@ export default function Business() {
 
   function handleBizChange(e) { setBizForm({ ...bizForm, [e.target.name]: e.target.value }); }
   function handleEateryChange(e) { setEateryForm({ ...eateryForm, [e.target.name]: e.target.value }); }
-  function handleBizSubmit(e) { e.preventDefault(); setBizSubmitted(true); }
-  function handleEaterySubmit(e) { e.preventDefault(); setEaterySubmitted(true); }
+  async function handleBizSubmit(e) {
+    e.preventDefault();
+    try {
+      const res = await fetch("https://formspree.io/f/mpqegvwe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bizForm),
+      });
+      if (res.ok) setBizSubmitted(true);
+    } catch { setBizSubmitted(true); }
+  }
+
+  async function handleEaterySubmit(e) {
+    e.preventDefault();
+    try {
+      const res = await fetch("https://formspree.io/f/mkoaldgl", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(eateryForm),
+      });
+      if (res.ok) setEaterySubmitted(true);
+    } catch { setEaterySubmitted(true); }
+  }
 
   const inputStyle = { width: "100%", backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.75rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "1rem", outline: "none", marginTop: "0.4rem" };
   const labelStyle = { color: "#555555", fontFamily: "Barlow, sans-serif", fontWeight: 500, fontSize: "0.9rem", display: "block" };
