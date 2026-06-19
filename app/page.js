@@ -5,7 +5,9 @@
       {/* Hero Section */}
       <section style={{
         position: "relative",
-        height: "560px",
+        height: "630px",
+        marginTop: "-65px",
+        paddingTop: "65px",
         overflow: "hidden",
         backgroundColor: "#0A1628",
         display: "flex",
@@ -23,7 +25,7 @@
         <div style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(to right, #0A1628 35%, rgba(10,22,40,0.85) 55%, rgba(10,22,40,0.2) 80%, rgba(10,22,40,0) 100%)",
+          background: "linear-gradient(to right, #0A1628 25%, rgba(10,22,40,0.8) 45%, rgba(10,22,40,0.15) 70%, rgba(10,22,40,0) 100%)",
         }} />
         <div style={{
           position: "absolute",
