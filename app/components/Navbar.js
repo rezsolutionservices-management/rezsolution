@@ -28,11 +28,14 @@ export default function Navbar() {
       zIndex: 100 
     }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", height: "65px" }}>
-        <div>
-          <div style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.1rem", color: "#F5C000", letterSpacing: "1px", lineHeight: 1.1 }}>
-            RezSolution Services
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <img src="/rsfavicon.png" alt="RezSolution Logo" style={{ width: "42px", height: "42px", objectFit: "contain", borderRadius: "50%" }} />
+          <div>
+            <div style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.1rem", color: "#F5C000", letterSpacing: "1px", lineHeight: 1.1 }}>
+              RezSolution Services
+            </div>
+            <div style={{ color: "#AAAAAA", fontSize: "0.62rem", letterSpacing: "1.5px" }}>Fast. Reliable. For Our Nation.</div>
           </div>
-          <div style={{ color: "#AAAAAA", fontSize: "0.62rem", letterSpacing: "1.5px" }}>Fast. Reliable. For Our Nation.</div>
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "1.75rem" }} className="desktop-nav">
