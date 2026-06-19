@@ -56,8 +56,8 @@
           {[
             { step: "01", title: "Place Your Order", desc: "Fill out the order form with your pickup and drop-off addresses. Your rate is calculated automatically." },
             { step: "02", title: "Pay Delivery Fee", desc: "Delivery fee is collected upfront via e-transfer to confirm your order and protect operator time." },
-            { step: "03", title: "We Pick Up", desc: "Your driver heads to the pickup location. For shopping orders, items are purchased on your behalf." },
-            { step: "04", title: "Delivered to Your Door", desc: "Your order arrives. Shopping order item costs billed separately after delivery confirmation." },
+            { step: "03", title: "We Shop For You", desc: "For shopping orders, we head out and pick up your items. Once we have the total, we send it to you and collect payment before delivery." },
+            { step: "04", title: "Delivered to Your Door", desc: "Once payment is confirmed, we bring your order straight to your door. Fast, reliable, every time." },
           ].map(item => (
             <div key={item.step} style={{ flex: "1", minWidth: "200px", maxWidth: "220px", textAlign: "center" }}>
               <div style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "3rem", color: "#F5C000", lineHeight: 1, marginBottom: "0.75rem" }}>{item.step}</div>
