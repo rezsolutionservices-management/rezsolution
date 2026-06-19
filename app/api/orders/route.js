@@ -3,6 +3,7 @@ import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export async function POST(request) {
   const body = await request.json();
+  
   const { data, error } = await supabaseAdmin
     .from("orders")
     .insert([{
@@ -22,6 +23,29 @@ export async function POST(request) {
 
   if (error) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+
+  try {
+    await fetch("https://formspree.io/f/xrevnzzv", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        subject: "New Order from " + body.name,
+        name: body.name,
+        phone: body.phone,
+        email: body.email || "Not provided",
+        pickup: body.pickup,
+        dropoff: body.dropoff,
+        package_type: body.package_type,
+        tier: body.tier,
+        fee: "$" + body.fee,
+        priority: body.rush ? "Yes" : "No",
+        notes: body.notes || "None",
+        items: body.items || "N/A",
+      }),
+    });
+  } catch (e) {
+    console.error("Notification email failed:", e);
   }
 
   return NextResponse.json({ success: true, data });
