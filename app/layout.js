@@ -5,6 +5,10 @@ import Footer from './components/Footer';
 export const metadata = {
   title: 'RezSolution Services',
   description: 'Last-mile courier and delivery for CMO Nations and Southwestern Ontario.',
+  icons: {
+    icon: '/rssmobilelogo.png',
+    apple: '/rssmobilelogo.png',
+  },
 };
 
 export default function RootLayout({ children }) {
