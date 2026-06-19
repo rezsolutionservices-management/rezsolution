@@ -41,7 +41,7 @@ export default function Business() {
   async function handleMedSubmit(e) {
     e.preventDefault();
     try {
-      const res = await fetch("https://formspree.io/f/mpqegvwe", {
+      const res = await fetch("https://formspree.io/f/mykarzoj", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...medForm, _subject: "New Medical Partner Application" }),
