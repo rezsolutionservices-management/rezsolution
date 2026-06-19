@@ -1,5 +1,7 @@
 ﻿"use client";
 import { useState, useRef, useEffect } from "react";
+import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
+import { point } from "@turf/helpers";
 
 const PACKAGE_TYPES = [
   { id: "food", label: "Food Order", surcharge: 3 },
@@ -33,7 +35,7 @@ function useGoogleMapsScript(apiKey) {
   return loaded;
 }
 
-function AddressInput({ label, placeholder, onSelect, value }) {
+function AddressInput({ label, placeholder, onSelect }) {
   const inputRef = useRef(null);
   const autocompleteRef = useRef(null);
 
@@ -54,12 +56,12 @@ function AddressInput({ label, placeholder, onSelect, value }) {
   return (
     <div>
       <label style={{ color: "#555555", fontFamily: "Barlow, sans-serif", fontWeight: 500, fontSize: "0.9rem", display: "block", marginBottom: "0.4rem" }}>{label}</label>
-      <input ref={inputRef} defaultValue={value} placeholder={placeholder} style={{ width: "100%", backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.75rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "1rem", outline: "none" }} />
+      <input ref={inputRef} placeholder={placeholder} style={{ width: "100%", backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.75rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "1rem", outline: "none" }} />
     </div>
   );
 }
 
-function MapPreview({ pickupLocation, dropoffLocation, apiKey }) {
+function MapPreview({ pickupLocation, dropoffLocation }) {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const directionsRendererRef = useRef(null);
@@ -77,7 +79,6 @@ function MapPreview({ pickupLocation, dropoffLocation, apiKey }) {
       directionsRendererRef.current = new window.google.maps.DirectionsRenderer();
       directionsRendererRef.current.setMap(mapInstanceRef.current);
     }
-
     if (pickupLocation && dropoffLocation) {
       const directionsService = new window.google.maps.DirectionsService();
       directionsService.route({
@@ -85,16 +86,12 @@ function MapPreview({ pickupLocation, dropoffLocation, apiKey }) {
         destination: dropoffLocation,
         travelMode: window.google.maps.TravelMode.DRIVING,
       }, (result, status) => {
-        if (status === "OK") {
-          directionsRendererRef.current.setDirections(result);
-        }
+        if (status === "OK") directionsRendererRef.current.setDirections(result);
       });
     }
   }, [pickupLocation, dropoffLocation]);
 
-  return (
-    <div ref={mapRef} style={{ width: "100%", height: "300px", borderRadius: "8px", border: "1px solid #E5E7EB", marginTop: "1rem" }} />
-  );
+  return <div ref={mapRef} style={{ width: "100%", height: "300px", borderRadius: "8px", border: "1px solid #E5E7EB", marginTop: "1rem" }} />;
 }
 
 export default function Order() {
@@ -117,23 +114,53 @@ export default function Order() {
   const [error, setError] = useState("");
   const [km, setKm] = useState(null);
   const [tier, setTier] = useState(null);
+  const [cmoDetected, setCmoDetected] = useState(false);
+  const [cmoBoundaries, setCmoBoundaries] = useState(null);
 
-  const selectedPackage = PACKAGE_TYPES.find(p => p.id === packageType);
-  const isShopping = SHOPPING_TYPES.includes(packageType);
-  const showMap = mapsLoaded && (pickupLocation || dropoffLocation);
+  useEffect(() => {
+    fetch("/cmo-boundaries.geojson")
+      .then(res => res.json())
+      .then(data => setCmoBoundaries(data))
+      .catch(err => console.error("Failed to load CMO boundaries:", err));
+  }, []);
 
-  const quote = km && selectedPackage && tier === "standard"
-    ? calcStandardRate(km, selectedPackage.surcharge, rush)
-    : tier === "cmo" ? 10 : null;
+  function isInCMO(location) {
+    if (!cmoBoundaries || !location) return false;
+    const lat = typeof location.lat === "function" ? location.lat() : location.lat;
+    const lng = typeof location.lng === "function" ? location.lng() : location.lng;
+    const pt = point([lng, lat]);
+    return cmoBoundaries.features.some(feature => {
+      try { return booleanPointInPolygon(pt, feature); }
+      catch { return false; }
+    });
+  }
+
+  function checkCMOTier(pickupLoc, dropoffLoc) {
+    if (pickupLoc && dropoffLoc) {
+      const pickupInCMO = isInCMO(pickupLoc);
+      const dropoffInCMO = isInCMO(dropoffLoc);
+      if (pickupInCMO && dropoffInCMO) {
+        setTier("cmo");
+        setCmoDetected(true);
+        return true;
+      } else {
+        setCmoDetected(false);
+        if (tier === "cmo") setTier(km ? "standard" : null);
+      }
+    }
+    return false;
+  }
 
   function handlePickupSelect(address, location) {
     setPickup(address);
     setPickupLocation(location);
+    checkCMOTier(location, dropoffLocation);
   }
 
   function handleDropoffSelect(address, location) {
     setDropoff(address);
     setDropoffLocation(location);
+    checkCMOTier(pickupLocation, location);
   }
 
   function calculateDistance() {
@@ -148,16 +175,24 @@ export default function Order() {
         const distanceMeters = response.rows[0].elements[0].distance.value;
         const distanceKm = distanceMeters / 1000;
         setKm(Math.round(distanceKm * 10) / 10);
-        if (!tier) setTier("standard");
+        if (!cmoDetected) setTier("standard");
       }
     });
   }
 
   useEffect(() => {
     if (pickupLocation && dropoffLocation) {
-      calculateDistance();
+      const isCMO = checkCMOTier(pickupLocation, dropoffLocation);
+      if (!isCMO) calculateDistance();
     }
-  }, [pickupLocation, dropoffLocation]);
+  }, [pickupLocation, dropoffLocation, cmoBoundaries]);
+
+  const selectedPackage = PACKAGE_TYPES.find(p => p.id === packageType);
+  const isShopping = SHOPPING_TYPES.includes(packageType);
+  const showMap = mapsLoaded && (pickupLocation || dropoffLocation);
+
+  const quote = tier === "cmo" ? 10
+    : (km && selectedPackage ? calcStandardRate(km, selectedPackage.surcharge, rush) : null);
 
   function addItem() { setItems([...items, { name: "", qty: 1 }]); }
   function updateItem(i, field, val) {
@@ -190,11 +225,8 @@ export default function Order() {
         }),
       });
       const data = await res.json();
-      if (data.success) {
-        setSubmitted(true);
-      } else {
-        setError("Something went wrong. Please try again or contact us directly.");
-      }
+      if (data.success) setSubmitted(true);
+      else setError("Something went wrong. Please try again or contact us directly.");
     } catch {
       setError("Something went wrong. Please try again or contact us directly.");
     }
@@ -206,8 +238,6 @@ export default function Order() {
 
   return (
     <main style={{ backgroundColor: "#F4F5F7" }}>
-
-      {/* Hero */}
       <section style={{ backgroundColor: "#0A1628", padding: "4rem 2rem", textAlign: "center", borderBottom: "4px solid #F5C000" }}>
         <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "1rem" }}>Fast & Reliable</p>
         <h1 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#FFFFFF", lineHeight: 1.1, marginBottom: "1rem" }}>Place Your Order</h1>
@@ -244,8 +274,8 @@ export default function Order() {
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                   {mapsLoaded ? (
                     <>
-                      <AddressInput label="Pickup Address" placeholder="Start typing an address..." onSelect={handlePickupSelect} value={pickup} />
-                      <AddressInput label="Drop-off Address" placeholder="Start typing an address..." onSelect={handleDropoffSelect} value={dropoff} />
+                      <AddressInput label="Pickup Address" placeholder="Start typing an address..." onSelect={handlePickupSelect} />
+                      <AddressInput label="Drop-off Address" placeholder="Start typing an address..." onSelect={handleDropoffSelect} />
                     </>
                   ) : (
                     <>
@@ -260,20 +290,19 @@ export default function Order() {
                     </>
                   )}
 
-                  {showMap && (
-                    <MapPreview pickupLocation={pickupLocation} dropoffLocation={dropoffLocation} apiKey={apiKey} />
+                  {showMap && <MapPreview pickupLocation={pickupLocation} dropoffLocation={dropoffLocation} />}
+
+                  {cmoDetected && (
+                    <div style={{ backgroundColor: "#ECFDF5", border: "2px solid #059669", borderRadius: "4px", padding: "0.75rem 1rem", color: "#059669", fontSize: "0.9rem", fontWeight: 500 }}>
+                      CMO Community Rate detected — $10 flat rate applied automatically!
+                    </div>
                   )}
 
-                  {km && (
+                  {km && !cmoDetected && (
                     <div style={{ backgroundColor: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: "4px", padding: "0.75rem 1rem", color: "#1E40AF", fontSize: "0.9rem" }}>
                       Distance calculated: <strong>{km} km</strong> — quote updated automatically.
                     </div>
                   )}
-
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                    <input type="checkbox" id="cmo" onChange={e => setTier(e.target.checked ? "cmo" : (km ? "standard" : null))} style={{ width: "18px", height: "18px", cursor: "pointer" }} />
-                    <label htmlFor="cmo" style={{ ...labelStyle, marginBottom: 0, cursor: "pointer" }}>Both addresses are on CMO reserve land ($10 flat rate)</label>
-                  </div>
                 </div>
               </div>
 
