@@ -203,12 +203,12 @@
           margin: "0 auto",
         }}>
           {[
-            { color: "#2563EB", label: "Food Order", desc: "Hot meals from local spots" },
-            { color: "#D97706", label: "Smoke & Snack", desc: "ID verified at delivery" },
-            { color: "#059669", label: "Groceries", desc: "Full shopping runs" },
-            { color: "#374151", label: "General Parcel", desc: "Packages & courier" },
-            { color: "#DC2626", label: "Pharmacy / Rx", desc: "Prescription pickup & drop" },
-            { color: "#7C3AED", label: "Documents", desc: "Secure document delivery" },
+            { color: "#2563EB", icon: "🍔", label: "Food Order", desc: "Hot meals from local spots" },
+            { color: "#D97706", icon: "🏪", label: "Smoke & Snack", desc: "ID verified at delivery" },
+            { color: "#059669", icon: "🛒", label: "Groceries", desc: "Full shopping runs" },
+            { color: "#374151", icon: "📦", label: "General Parcel", desc: "Packages & courier" },
+            { color: "#DC2626", icon: "💊", label: "Pharmacy / Rx", desc: "Prescription pickup & drop" },
+            { color: "#7C3AED", icon: "📄", label: "Documents", desc: "Secure document delivery" },
           ].map(item => (
             <a key={item.label} href="/services" style={{
               backgroundColor: "#FFFFFF",
@@ -230,7 +230,7 @@
                 margin: "0 auto 0.75rem",
                 fontSize: "1.5rem",
               }}>
-                <div style={{ width: "20px", height: "20px", backgroundColor: item.color, borderRadius: "4px" }} />
+                {item.icon}
               </div>
               <div style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem", color: "#0A1628", marginBottom: "0.4rem" }}>{item.label}</div>
               <div style={{ color: "#666666", fontSize: "0.85rem" }}>{item.desc}</div>
