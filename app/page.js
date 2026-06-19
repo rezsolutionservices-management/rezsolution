@@ -11,12 +11,14 @@
         display: "flex",
         alignItems: "center",
       }}>
-        <div style={{
+        <img src="/hero.jpg" alt="RezSolution delivery vehicle" style={{
           position: "absolute",
-          inset: 0,
-          backgroundImage: "url('/hero.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "right center",
+          top: 0,
+          right: 0,
+          height: "100%",
+          width: "70%",
+          objectFit: "cover",
+          objectPosition: "30% center",
         }} />
         <div style={{
           position: "absolute",
