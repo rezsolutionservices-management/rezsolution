@@ -70,11 +70,7 @@ export default function Order() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name,
-          phone,
-          email,
-          pickup,
-          dropoff,
+          name, phone, email, pickup, dropoff,
           package_type: selectedPackage?.label || packageType,
           tier: tier || "unknown",
           fee: quote || 0,
@@ -95,32 +91,34 @@ export default function Order() {
     setLoading(false);
   }
 
-  const inputStyle = { width: "100%", backgroundColor: "#1C1C1C", border: "1px solid #444444", borderRadius: "4px", padding: "0.75rem 1rem", color: "#FFFFFF", fontFamily: "Barlow", fontSize: "1rem", outline: "none" };
-  const labelStyle = { color: "#CCCCCC", fontFamily: "Barlow", fontWeight: 500, fontSize: "0.9rem", display: "block", marginBottom: "0.4rem" };
+  const inputStyle = { width: "100%", backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.75rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "1rem", outline: "none" };
+  const labelStyle = { color: "#555555", fontFamily: "Barlow, sans-serif", fontWeight: 500, fontSize: "0.9rem", display: "block", marginBottom: "0.4rem" };
 
   return (
-    <main>
-      <section style={{ backgroundColor: "#1C1C1C", padding: "4rem 2rem", textAlign: "center", borderBottom: "4px solid #F5C000" }}>
-        <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "1rem" }}>Fast & Reliable</p>
-        <h1 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#FFFFFF", lineHeight: 1.1, marginBottom: "1rem" }}>Place Your Order</h1>
+    <main style={{ backgroundColor: "#F4F5F7" }}>
+
+      {/* Hero */}
+      <section style={{ backgroundColor: "#0A1628", padding: "4rem 2rem", textAlign: "center", borderBottom: "4px solid #F5C000" }}>
+        <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "1rem" }}>Fast & Reliable</p>
+        <h1 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#FFFFFF", lineHeight: 1.1, marginBottom: "1rem" }}>Place Your Order</h1>
         <p style={{ color: "#CCCCCC", fontSize: "1.1rem", maxWidth: "500px", margin: "0 auto", lineHeight: 1.7 }}>
           Fill in your details below. Your rate is calculated automatically based on your addresses.
         </p>
       </section>
 
-      <section style={{ backgroundColor: "#111111", padding: "4rem 2rem", borderBottom: "4px solid #F5C000" }}>
+      <section style={{ backgroundColor: "#FFFFFF", padding: "4rem 2rem", borderBottom: "4px solid #F5C000" }}>
         <div style={{ maxWidth: "1100px", margin: "0 auto", display: "flex", gap: "3rem", flexWrap: "wrap" }}>
 
           {submitted ? (
-            <div style={{ flex: 1, backgroundColor: "#1a3a1a", border: "2px solid #2E7D32", borderRadius: "8px", padding: "3rem", textAlign: "center" }}>
-              <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "2rem", color: "#FFFFFF", marginBottom: "1rem" }}>Order Received!</h2>
-              <p style={{ color: "#CCCCCC", fontSize: "1rem", lineHeight: 1.7 }}>
+            <div style={{ flex: 1, backgroundColor: "#ECFDF5", border: "2px solid #059669", borderRadius: "8px", padding: "3rem", textAlign: "center" }}>
+              <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "2rem", color: "#0A1628", marginBottom: "1rem" }}>Order Received!</h2>
+              <p style={{ color: "#666666", fontSize: "1rem", lineHeight: 1.7 }}>
                 Thanks {name} — your order has been received. We will contact you shortly to confirm and send your e-transfer payment link.
               </p>
               {quote && (
-                <div style={{ marginTop: "1.5rem", backgroundColor: "#111111", borderRadius: "6px", padding: "1rem" }}>
-                  <p style={{ color: "#AAAAAA", fontSize: "0.9rem" }}>Delivery Fee Due</p>
-                  <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "2.5rem" }}>${quote.toFixed(2)}</p>
+                <div style={{ marginTop: "1.5rem", backgroundColor: "#FFFFFF", borderRadius: "6px", padding: "1rem", border: "1px solid #E5E7EB" }}>
+                  <p style={{ color: "#999999", fontSize: "0.9rem" }}>Delivery Fee Due</p>
+                  <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "2.5rem" }}>${quote.toFixed(2)}</p>
                 </div>
               )}
             </div>
@@ -128,11 +126,11 @@ export default function Order() {
             <form onSubmit={handleSubmit} style={{ flex: 2, minWidth: "280px", display: "flex", flexDirection: "column", gap: "1.5rem" }}>
 
               {error && (
-                <div style={{ backgroundColor: "#2a0a0a", border: "1px solid #D42B2B", borderRadius: "4px", padding: "0.75rem 1rem", color: "#D42B2B", fontSize: "0.9rem" }}>{error}</div>
+                <div style={{ backgroundColor: "#FEF2F2", border: "1px solid #DC2626", borderRadius: "4px", padding: "0.75rem 1rem", color: "#DC2626", fontSize: "0.9rem" }}>{error}</div>
               )}
 
-              <div>
-                <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Delivery Details</h2>
+              <div style={{ backgroundColor: "#F4F5F7", borderRadius: "8px", padding: "1.5rem", border: "1px solid #E5E7EB" }}>
+                <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "1.25rem" }}>Delivery Details</h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                   <div>
                     <label style={labelStyle}>Pickup Address</label>
@@ -145,7 +143,7 @@ export default function Order() {
                   <div>
                     <label style={labelStyle}>Estimated Distance (km) — for standard rate quote</label>
                     <input type="number" min="0" step="0.1" onChange={handleKmChange} placeholder="e.g. 12.5" style={inputStyle} />
-                    <p style={{ color: "#666666", fontSize: "0.8rem", marginTop: "0.4rem" }}>Leave blank if both addresses are on CMO reserve land — $10 flat rate applies.</p>
+                    <p style={{ color: "#999999", fontSize: "0.8rem", marginTop: "0.4rem" }}>Leave blank if both addresses are on CMO reserve land — $10 flat rate applies.</p>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
                     <input type="checkbox" id="cmo" onChange={e => setTier(e.target.checked ? "cmo" : (km ? "standard" : null))} style={{ width: "18px", height: "18px", cursor: "pointer" }} />
@@ -154,56 +152,55 @@ export default function Order() {
                 </div>
               </div>
 
-              <div>
-                <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Package Type</h2>
+              <div style={{ backgroundColor: "#F4F5F7", borderRadius: "8px", padding: "1.5rem", border: "1px solid #E5E7EB" }}>
+                <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "1.25rem" }}>Package Type</h2>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "0.75rem" }}>
                   {PACKAGE_TYPES.map(p => (
-                    <button key={p.id} type="button" onClick={() => setPackageType(p.id)} style={{ padding: "0.85rem 1rem", borderRadius: "4px", border: packageType === p.id ? "2px solid #F5C000" : "2px solid #444444", backgroundColor: packageType === p.id ? "#2a2000" : "#1C1C1C", color: packageType === p.id ? "#F5C000" : "#CCCCCC", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1rem", cursor: "pointer", textAlign: "left" }}>
+                    <button key={p.id} type="button" onClick={() => setPackageType(p.id)} style={{ padding: "0.85rem 1rem", borderRadius: "4px", border: packageType === p.id ? "2px solid #F5C000" : "2px solid #DDDDDD", backgroundColor: packageType === p.id ? "#FEF3C7" : "#FFFFFF", color: packageType === p.id ? "#92400E" : "#333333", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", cursor: "pointer", textAlign: "left" }}>
                       {p.label}
-                      <span style={{ display: "block", fontSize: "0.8rem", color: "#AAAAAA", fontWeight: 400 }}>{p.surcharge === 0 ? "No surcharge" : "+" + "$" + p.surcharge + " surcharge"}</span>
                     </button>
                   ))}
                 </div>
                 {packageType === "smoke" && (
-                  <div style={{ marginTop: "1rem", backgroundColor: "#2a1a00", border: "1px solid #F5C000", borderRadius: "4px", padding: "0.75rem 1rem", color: "#F5C000", fontSize: "0.85rem" }}>
+                  <div style={{ marginTop: "1rem", backgroundColor: "#FEF3C7", border: "1px solid #F5C000", borderRadius: "4px", padding: "0.75rem 1rem", color: "#92400E", fontSize: "0.85rem" }}>
                     ID verification required at delivery. Order handed only to the person who placed it.
                   </div>
                 )}
               </div>
 
               {isShopping && (
-                <div>
-                  <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "0.5rem" }}>Item List</h2>
-                  <p style={{ color: "#AAAAAA", fontSize: "0.85rem", marginBottom: "1rem" }}>List the items you need. Item cost will be billed separately after pickup.</p>
+                <div style={{ backgroundColor: "#F4F5F7", borderRadius: "8px", padding: "1.5rem", border: "1px solid #E5E7EB" }}>
+                  <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "0.5rem" }}>Item List</h2>
+                  <p style={{ color: "#999999", fontSize: "0.85rem", marginBottom: "1rem" }}>List the items you need. Item cost will be billed separately after pickup.</p>
                   <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                     {items.map((item, i) => (
                       <div key={i} style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
                         <input value={item.name} onChange={e => updateItem(i, "name", e.target.value)} placeholder="Item name" style={{ ...inputStyle, flex: 3 }} />
                         <input type="number" min="1" value={item.qty} onChange={e => updateItem(i, "qty", e.target.value)} style={{ ...inputStyle, flex: 1, textAlign: "center" }} />
                         {items.length > 1 && (
-                          <button type="button" onClick={() => removeItem(i)} style={{ background: "none", border: "none", color: "#D42B2B", fontSize: "1.2rem", cursor: "pointer" }}>x</button>
+                          <button type="button" onClick={() => removeItem(i)} style={{ background: "none", border: "none", color: "#DC2626", fontSize: "1.2rem", cursor: "pointer" }}>x</button>
                         )}
                       </div>
                     ))}
-                    <button type="button" onClick={addItem} style={{ alignSelf: "flex-start", background: "none", border: "1px solid #444444", borderRadius: "4px", color: "#CCCCCC", padding: "0.5rem 1rem", fontFamily: "Barlow", fontSize: "0.9rem", cursor: "pointer" }}>+ Add Item</button>
+                    <button type="button" onClick={addItem} style={{ alignSelf: "flex-start", background: "none", border: "1px solid #DDDDDD", borderRadius: "4px", color: "#555555", padding: "0.5rem 1rem", fontFamily: "Barlow, sans-serif", fontSize: "0.9rem", cursor: "pointer" }}>+ Add Item</button>
                   </div>
                 </div>
               )}
 
-              <div>
-                <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Delivery Speed</h2>
+              <div style={{ backgroundColor: "#F4F5F7", borderRadius: "8px", padding: "1.5rem", border: "1px solid #E5E7EB" }}>
+                <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "1.25rem" }}>Delivery Speed</h2>
                 <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
-                  {[{ id: false, label: "Standard", desc: "Next available slot" }, { id: true, label: "Same-Day Rush", desc: "+$8 (standard rate only)" }].map(opt => (
-                    <button key={String(opt.id)} type="button" onClick={() => setRush(opt.id)} style={{ padding: "0.85rem 1.5rem", borderRadius: "4px", border: rush === opt.id ? "2px solid #F5C000" : "2px solid #444444", backgroundColor: rush === opt.id ? "#2a2000" : "#1C1C1C", color: rush === opt.id ? "#F5C000" : "#CCCCCC", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1rem", cursor: "pointer", textAlign: "left" }}>
+                  {[{ id: false, label: "Standard", desc: "Next available slot" }, { id: true, label: "Priority", desc: "+$8 added to your quote" }].map(opt => (
+                    <button key={String(opt.id)} type="button" onClick={() => setRush(opt.id)} style={{ padding: "0.85rem 1.5rem", borderRadius: "4px", border: rush === opt.id ? "2px solid #F5C000" : "2px solid #DDDDDD", backgroundColor: rush === opt.id ? "#FEF3C7" : "#FFFFFF", color: rush === opt.id ? "#92400E" : "#333333", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", cursor: "pointer", textAlign: "left" }}>
                       {opt.label}
-                      <span style={{ display: "block", fontSize: "0.8rem", color: "#AAAAAA", fontWeight: 400 }}>{opt.desc}</span>
+                      <span style={{ display: "block", fontSize: "0.8rem", color: "#999999", fontWeight: 400 }}>{opt.desc}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
-              <div>
-                <h2 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.25rem" }}>Your Details</h2>
+              <div style={{ backgroundColor: "#F4F5F7", borderRadius: "8px", padding: "1.5rem", border: "1px solid #E5E7EB" }}>
+                <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "1.25rem" }}>Your Details</h2>
                 <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
                   {[{ label: "Full Name *", val: name, set: setName, type: "text", ph: "Your name" }, { label: "Phone Number *", val: phone, set: setPhone, type: "tel", ph: "(519) 000-0000" }, { label: "Email Address", val: email, set: setEmail, type: "email", ph: "your@email.com" }].map(f => (
                     <div key={f.label}>
@@ -218,7 +215,7 @@ export default function Order() {
                 </div>
               </div>
 
-              <button type="submit" disabled={loading} style={{ backgroundColor: "#F5C000", color: "#1C1C1C", padding: "1rem 2.5rem", borderRadius: "4px", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.2rem", letterSpacing: "1px", border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, alignSelf: "flex-start" }}>
+              <button type="submit" disabled={loading} style={{ backgroundColor: "#F5C000", color: "#0A1628", padding: "1rem 2.5rem", borderRadius: "4px", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.2rem", letterSpacing: "1px", border: "none", cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1, alignSelf: "flex-start" }}>
                 {loading ? "SUBMITTING..." : "CONFIRM ORDER"}
               </button>
 
@@ -226,35 +223,35 @@ export default function Order() {
           )}
 
           <div style={{ flex: 1, minWidth: "240px" }}>
-            <div style={{ backgroundColor: "#1C1C1C", border: "2px solid #F5C000", borderRadius: "8px", padding: "2rem", position: "sticky", top: "90px" }}>
-              <h3 style={{ fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.5rem" }}>Your Quote</h3>
+            <div style={{ backgroundColor: "#0A1628", border: "2px solid #F5C000", borderRadius: "8px", padding: "2rem", position: "sticky", top: "90px" }}>
+              <h3 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "1.5rem" }}>Your Quote</h3>
               {quote ? (
                 <>
                   <div style={{ marginBottom: "1rem" }}>
                     <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Rate Tier</p>
-                    <p style={{ color: tier === "cmo" ? "#2E7D32" : "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.1rem" }}>{tier === "cmo" ? "CMO Community Rate" : "Standard Rate"}</p>
+                    <p style={{ color: tier === "cmo" ? "#4ADE80" : "#FFFFFF", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem" }}>{tier === "cmo" ? "CMO Community Rate" : "Standard Rate"}</p>
                   </div>
                   {tier === "standard" && km && (
                     <div style={{ marginBottom: "1rem" }}>
                       <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Distance</p>
-                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.1rem" }}>{km} km</p>
+                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem" }}>{km} km</p>
                     </div>
                   )}
                   {selectedPackage && (
                     <div style={{ marginBottom: "1rem" }}>
                       <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Package Type</p>
-                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.1rem" }}>{selectedPackage.label}</p>
+                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem" }}>{selectedPackage.label}</p>
                     </div>
                   )}
-                  {rush && tier === "standard" && (
+                  {rush && (
                     <div style={{ marginBottom: "1rem" }}>
-                      <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Rush Add-on</p>
-                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed", fontWeight: 700, fontSize: "1.1rem" }}>+$8.00</p>
+                      <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Delivery Speed</p>
+                      <p style={{ color: "#FFFFFF", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem" }}>Priority</p>
                     </div>
                   )}
-                  <div style={{ borderTop: "1px solid #333333", paddingTop: "1rem", marginTop: "1rem" }}>
+                  <div style={{ borderTop: "1px solid #1a2a3a", paddingTop: "1rem", marginTop: "1rem" }}>
                     <p style={{ color: "#AAAAAA", fontSize: "0.85rem" }}>Delivery Fee</p>
-                    <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed", fontWeight: 800, fontSize: "3rem", lineHeight: 1 }}>${quote.toFixed(2)}</p>
+                    <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "3rem", lineHeight: 1 }}>${quote.toFixed(2)}</p>
                     <p style={{ color: "#666666", fontSize: "0.8rem", marginTop: "0.5rem" }}>Due upfront via e-transfer</p>
                   </div>
                   {isShopping && (

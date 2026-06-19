@@ -5,10 +5,11 @@
 @tailwind utilities;
 
 :root {
-  --charcoal: #1C1C1C;
+  --navy: #0A1628;
   --gold: #F5C000;
   --red: #D42B2B;
   --white: #FFFFFF;
+  --light-grey: #F4F5F7;
   --green: #2E7D32;
 }
 
@@ -19,8 +20,8 @@
 }
 
 body {
-  background-color: var(--charcoal);
-  color: var(--white);
+  background-color: var(--light-grey);
+  color: #333333;
   font-family: 'Barlow', sans-serif;
   font-weight: 400;
 }
