@@ -1,167 +1,147 @@
-export default function Home() {
+﻿export default function Home() {
   return (
     <main>
 
       {/* Hero Section */}
       <section style={{
-        backgroundColor: '#1C1C1C',
-        padding: '5rem 2rem',
-        textAlign: 'center',
-        borderBottom: '4px solid #F5C000',
+        position: "relative",
+        height: "560px",
+        overflow: "hidden",
+        backgroundColor: "#0A1628",
+        display: "flex",
+        alignItems: "center",
       }}>
-        <p style={{
-          color: '#F5C000',
-          fontFamily: 'Barlow Condensed',
-          fontWeight: 700,
-          fontSize: '1rem',
-          letterSpacing: '3px',
-          textTransform: 'uppercase',
-          marginBottom: '1rem',
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: "url('/hero.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "right center",
+        }} />
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to right, #0A1628 35%, rgba(10,22,40,0.85) 55%, rgba(10,22,40,0.2) 80%, rgba(10,22,40,0) 100%)",
+        }} />
+        <div style={{
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to top, #0A1628 0%, transparent 30%)",
+        }} />
+        <div style={{
+          position: "relative",
+          zIndex: 2,
+          padding: "0 3rem",
+          maxWidth: "560px",
         }}>
-          Serving CMO Nations & Southwestern Ontario
-        </p>
-        <h1 style={{
-          fontFamily: 'Barlow Condensed',
-          fontWeight: 800,
-          fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-          color: '#FFFFFF',
-          lineHeight: 1.1,
-          marginBottom: '1.5rem',
-        }}>
-          Delivery That Shows Up<br />
-          <span style={{ color: '#F5C000' }}>For Your Community</span>
-        </h1>
-        <p style={{
-          color: '#CCCCCC',
-          fontSize: '1.15rem',
-          maxWidth: '600px',
-          margin: '0 auto 2.5rem',
-          lineHeight: 1.7,
-        }}>
-          Fast, reliable last-mile courier service built for the Chippewas of the Thames,
-          Munsee-Delaware, and Oneida Nation. Community rate $10 flat. No forms, no hassle.
-        </p>
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <a href="/order" style={{
-            backgroundColor: '#F5C000',
-            color: '#1C1C1C',
-            padding: '0.9rem 2.5rem',
-            borderRadius: '4px',
-            fontFamily: 'Barlow Condensed',
-            fontWeight: 700,
-            fontSize: '1.1rem',
-            textDecoration: 'none',
-            letterSpacing: '1px',
+          <div style={{ width: "40px", height: "3px", backgroundColor: "#F5C000", marginBottom: "1.25rem" }} />
+          <h1 style={{
+            fontFamily: "Barlow Condensed, sans-serif",
+            fontWeight: 800,
+            fontSize: "clamp(2.5rem, 5vw, 4rem)",
+            color: "#FFFFFF",
+            lineHeight: 1.1,
+            marginBottom: "1rem",
           }}>
-            ORDER NOW
-          </a>
-          <a href="/services" style={{
-            backgroundColor: 'transparent',
-            color: '#FFFFFF',
-            padding: '0.9rem 2.5rem',
-            borderRadius: '4px',
-            border: '2px solid #FFFFFF',
-            fontFamily: 'Barlow Condensed',
-            fontWeight: 700,
-            fontSize: '1.1rem',
-            textDecoration: 'none',
-            letterSpacing: '1px',
+            Delivering for<br />
+            <span style={{ color: "#F5C000" }}>Our Nation.</span>
+          </h1>
+          <p style={{
+            color: "#CCCCCC",
+            fontSize: "1.05rem",
+            lineHeight: 1.7,
+            marginBottom: "1.75rem",
+            maxWidth: "420px",
           }}>
-            SEE SERVICES
-          </a>
+            Fast, reliable courier services across Chippewas of the Thames, Munsee-Delaware, Oneida Nation and Southwestern Ontario.
+          </p>
+          <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1.75rem", flexWrap: "wrap" }}>
+            {["Fast & Reliable", "Community Focused", "Trusted & Secure"].map(badge => (
+              <div key={badge} style={{ display: "flex", alignItems: "center", gap: "0.4rem", color: "#CCCCCC", fontSize: "0.85rem" }}>
+                <div style={{ width: "6px", height: "6px", backgroundColor: "#F5C000", borderRadius: "50%" }} />
+                {badge}
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+            <a href="/order" style={{
+              backgroundColor: "#F5C000",
+              color: "#0A1628",
+              padding: "0.85rem 2rem",
+              borderRadius: "4px",
+              fontFamily: "Barlow Condensed, sans-serif",
+              fontWeight: 700,
+              fontSize: "1rem",
+              textDecoration: "none",
+              letterSpacing: "1px",
+            }}>ORDER NOW</a>
+            <a href="/services" style={{
+              backgroundColor: "transparent",
+              color: "#FFFFFF",
+              padding: "0.85rem 2rem",
+              borderRadius: "4px",
+              border: "2px solid rgba(255,255,255,0.4)",
+              fontFamily: "Barlow Condensed, sans-serif",
+              fontWeight: 700,
+              fontSize: "1rem",
+              textDecoration: "none",
+              letterSpacing: "1px",
+            }}>SEE SERVICES</a>
+          </div>
         </div>
       </section>
 
-      {/* Pricing Cards */}
-      <section style={{
-        backgroundColor: '#111111',
-        padding: '5rem 2rem',
-        borderBottom: '4px solid #F5C000',
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <h2 style={{
-            fontFamily: 'Barlow Condensed',
-            fontWeight: 800,
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
-            color: '#FFFFFF',
-            marginBottom: '0.75rem',
-          }}>
-            Simple, Transparent Pricing
+      {/* Pricing Section */}
+      <section style={{ backgroundColor: "#FFFFFF", padding: "5rem 2rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "0.75rem" }}>Simple, Transparent Pricing</p>
+          <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", color: "#0A1628", marginBottom: "0.75rem" }}>
+            Affordable & Straightforward.
           </h2>
-          <p style={{ color: '#CCCCCC', fontSize: '1rem', maxWidth: '500px', margin: '0 auto' }}>
-            Your rate is detected automatically based on your delivery address. No forms, no verification needed.
-          </p>
+          <div style={{ width: "40px", height: "3px", backgroundColor: "#F5C000", margin: "0 auto" }} />
         </div>
+        <div style={{ display: "flex", gap: "2rem", maxWidth: "900px", margin: "0 auto", flexWrap: "wrap", justifyContent: "center", alignItems: "stretch" }}>
 
-        <div style={{
-          display: 'flex',
-          gap: '2rem',
-          maxWidth: '900px',
-          margin: '0 auto',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          alignItems: 'stretch',
-        }}>
-
-          {/* CMO Community Rate */}
+          {/* CMO Rate */}
           <div style={{
-            backgroundColor: '#1C1C1C',
-            border: '2px solid #F5C000',
-            borderRadius: '8px',
-            padding: '2.5rem',
-            flex: '1',
-            minWidth: '280px',
-            maxWidth: '420px',
-            position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
+            backgroundColor: "#F4F5F7",
+            border: "2px solid #F5C000",
+            borderRadius: "8px",
+            padding: "2.5rem",
+            flex: "1",
+            minWidth: "280px",
+            maxWidth: "420px",
+            position: "relative",
+            display: "flex",
+            flexDirection: "column",
           }}>
             <div style={{
-              position: 'absolute',
-              top: '-14px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              backgroundColor: '#F5C000',
-              color: '#1C1C1C',
-              fontFamily: 'Barlow Condensed',
+              position: "absolute",
+              top: "-14px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              backgroundColor: "#F5C000",
+              color: "#0A1628",
+              fontFamily: "Barlow Condensed, sans-serif",
               fontWeight: 700,
-              fontSize: '0.8rem',
-              letterSpacing: '2px',
-              padding: '4px 16px',
-              borderRadius: '20px',
-            }}>
-              CMO ON-RESERVE ORDERS
-            </div>
-            <h3 style={{
-              fontFamily: 'Barlow Condensed',
-              fontWeight: 800,
-              fontSize: '1.5rem',
-              color: '#F5C000',
-              marginBottom: '0.5rem',
-              marginTop: '0.5rem',
-            }}>
-              Community Rate
-            </h3>
-            <div style={{
-              fontSize: '4rem',
-              fontFamily: 'Barlow Condensed',
-              fontWeight: 800,
-              color: '#FFFFFF',
-              lineHeight: 1,
-              marginBottom: '0.25rem',
-            }}>
-              $10
-            </div>
-            <p style={{ color: '#AAAAAA', fontSize: '0.9rem', marginBottom: '1.5rem' }}>flat rate per delivery</p>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: 'auto' }}>
+              fontSize: "0.8rem",
+              letterSpacing: "2px",
+              padding: "4px 16px",
+              borderRadius: "20px",
+              whiteSpace: "nowrap",
+            }}>CMO ON-RESERVE ORDERS</div>
+            <h3 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#F5C000", marginBottom: "0.5rem", marginTop: "0.5rem" }}>Community Rate</h3>
+            <div style={{ fontSize: "4rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, color: "#0A1628", lineHeight: 1, marginBottom: "0.25rem" }}>$10</div>
+            <p style={{ color: "#666666", fontSize: "0.9rem", marginBottom: "1.5rem" }}>flat rate per delivery</p>
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "auto" }}>
               {[
-                'Both pickup & drop-off on-reserve',
-                'Applies to all 3 CMO nations',
-                'Detected automatically by address',
-                'No forms or verification needed',
+                "Both pickup & drop-off on-reserve",
+                "Applies to all 3 CMO nations",
+                "Detected automatically by address",
+                "No forms or verification needed",
               ].map(item => (
-                <li key={item} style={{ color: '#CCCCCC', fontSize: '0.95rem', display: 'flex', gap: '0.5rem' }}>
-                  <span style={{ color: '#F5C000' }}>✓</span> {item}
+                <li key={item} style={{ color: "#444444", fontSize: "0.95rem", display: "flex", gap: "0.5rem" }}>
+                  <span style={{ color: "#F5C000" }}>✓</span> {item}
                 </li>
               ))}
             </ul>
@@ -169,45 +149,30 @@ export default function Home() {
 
           {/* Standard Rate */}
           <div style={{
-            backgroundColor: '#1C1C1C',
-            border: '2px solid #444444',
-            borderRadius: '8px',
-            padding: '2.5rem',
-             flex: '1',
-            minWidth: '280px',
-            maxWidth: '420px',
-            display: 'flex',
-            flexDirection: 'column',
+            backgroundColor: "#F4F5F7",
+            border: "1px solid #DDDDDD",
+            borderRadius: "8px",
+            padding: "2.5rem",
+            flex: "1",
+            minWidth: "280px",
+            maxWidth: "420px",
+            display: "flex",
+            flexDirection: "column",
           }}>
-            <h3 style={{
-              fontFamily: 'Barlow Condensed',
-              fontWeight: 800,
-              fontSize: '1.5rem',
-              color: '#FFFFFF',
-              marginBottom: '0.5rem',
-            }}>
-              Standard Rate
-            </h3>
-            <div style={{
-              fontSize: '2.5rem',
-              fontFamily: 'Barlow Condensed',
-              fontWeight: 800,
-              color: '#FFFFFF',
-              lineHeight: 1,
-              marginBottom: '0.25rem',
-            }}>
-              $0.45<span style={{ fontSize: '1.2rem' }}>/km</span>
+            <h3 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "0.5rem" }}>Standard Rate</h3>
+            <div style={{ fontSize: "2.5rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, color: "#0A1628", lineHeight: 1, marginBottom: "0.25rem" }}>
+              $0.45<span style={{ fontSize: "1.2rem" }}>/km</span>
             </div>
-            <p style={{ color: '#AAAAAA', fontSize: '0.9rem', marginBottom: '1.5rem' }}>Distance-based pricing · $10 minimum</p>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: 'auto' }}>
+            <p style={{ color: "#666666", fontSize: "0.9rem", marginBottom: "1.5rem" }}>Distance-based pricing · $10 minimum</p>
+            <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "0.75rem", marginTop: "auto" }}>
               {[
-                'Southwestern Ontario coverage',
-                'Transparent pricing, no hidden fees',
-                'Package surcharges from $2–$6',
-                'Same-day rush add-on +$8',
+                "Southwestern Ontario coverage",
+                "Transparent pricing, no hidden fees",
+                "Package surcharges from $2-$6",
+                "Priority delivery available",
               ].map(item => (
-                <li key={item} style={{ color: '#CCCCCC', fontSize: '0.95rem', display: 'flex', gap: '0.5rem' }}>
-                  <span style={{ color: '#AAAAAA' }}>✓</span> {item}
+                <li key={item} style={{ color: "#444444", fontSize: "0.95rem", display: "flex", gap: "0.5rem" }}>
+                  <span style={{ color: "#888888" }}>✓</span> {item}
                 </li>
               ))}
             </ul>
@@ -216,106 +181,79 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Quick Links Grid */}
-      <section style={{
-        backgroundColor: '#1C1C1C',
-        padding: '5rem 2rem',
-        borderBottom: '4px solid #F5C000',
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <h2 style={{
-            fontFamily: 'Barlow Condensed',
-            fontWeight: 800,
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
-            color: '#FFFFFF',
-            marginBottom: '0.75rem',
-          }}>
-            What We Deliver
+      {/* Services Section */}
+      <section style={{ backgroundColor: "#F4F5F7", padding: "5rem 2rem" }}>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "0.75rem" }}>What We Deliver</p>
+          <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(2rem, 4vw, 3rem)", color: "#0A1628", marginBottom: "0.75rem" }}>
+            We Deliver What Matters.
           </h2>
-          <p style={{ color: '#CCCCCC', fontSize: '1rem' }}>
-            From groceries to prescriptions — we've got you covered.
-          </p>
+          <div style={{ width: "40px", height: "3px", backgroundColor: "#F5C000", margin: "0 auto" }} />
         </div>
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '1.5rem',
-          maxWidth: '1000px',
-          margin: '0 auto',
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+          gap: "1.5rem",
+          maxWidth: "1000px",
+          margin: "0 auto",
         }}>
           {[
-            { icon: '🍔', label: 'Food Orders', desc: 'Hot meals from local spots' },
-            { icon: '🚬', label: 'Smoke & Snack', desc: 'ID verified at delivery' },
-            { icon: '🛒', label: 'Groceries', desc: 'Full shopping runs' },
-            { icon: '📦', label: 'General Parcel', desc: 'Packages & courier' },
-            { icon: '💊', label: 'Pharmacy/Rx', desc: 'Prescription pickup & drop' },
-            { icon: '📄', label: 'Documents', desc: 'Secure document delivery' },
+            { color: "#2563EB", label: "Food Order", desc: "Hot meals from local spots" },
+            { color: "#D97706", label: "Smoke & Snack", desc: "ID verified at delivery" },
+            { color: "#059669", label: "Groceries", desc: "Full shopping runs" },
+            { color: "#374151", label: "General Parcel", desc: "Packages & courier" },
+            { color: "#DC2626", label: "Pharmacy / Rx", desc: "Prescription pickup & drop" },
+            { color: "#7C3AED", label: "Documents", desc: "Secure document delivery" },
           ].map(item => (
             <a key={item.label} href="/services" style={{
-              backgroundColor: '#111111',
-              border: '1px solid #333333',
-              borderRadius: '8px',
-              padding: '1.75rem 1.5rem',
-              textDecoration: 'none',
-              textAlign: 'center',
-              transition: 'border-color 0.2s',
+              backgroundColor: "#FFFFFF",
+              border: "1px solid #E5E7EB",
+              borderRadius: "8px",
+              padding: "1.75rem 1.5rem",
+              textDecoration: "none",
+              textAlign: "center",
+              display: "block",
             }}>
-              <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{item.icon}</div>
               <div style={{
-                fontFamily: 'Barlow Condensed',
-                fontWeight: 700,
-                fontSize: '1.1rem',
-                color: '#FFFFFF',
-                marginBottom: '0.4rem',
-              }}>{item.label}</div>
-              <div style={{ color: '#AAAAAA', fontSize: '0.85rem' }}>{item.desc}</div>
+                width: "52px",
+                height: "52px",
+                backgroundColor: item.color + "18",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 0.75rem",
+                fontSize: "1.5rem",
+              }}>
+                <div style={{ width: "20px", height: "20px", backgroundColor: item.color, borderRadius: "4px" }} />
+              </div>
+              <div style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem", color: "#0A1628", marginBottom: "0.4rem" }}>{item.label}</div>
+              <div style={{ color: "#666666", fontSize: "0.85rem" }}>{item.desc}</div>
             </a>
           ))}
         </div>
       </section>
 
-      {/* CMO Coverage Strip */}
-      <section style={{
-        backgroundColor: '#D42B2B',
-        padding: '3rem 2rem',
-        textAlign: 'center',
-      }}>
-        <h2 style={{
-          fontFamily: 'Barlow Condensed',
-          fontWeight: 800,
-          fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
-          color: '#FFFFFF',
-          marginBottom: '0.75rem',
-        }}>
+      {/* CMO Strip */}
+      <section style={{ backgroundColor: "#D42B2B", padding: "3rem 2rem", textAlign: "center" }}>
+        <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(1.5rem, 3vw, 2.5rem)", color: "#FFFFFF", marginBottom: "0.75rem" }}>
           Proudly Serving CMO Territory
         </h2>
-        <p style={{ color: '#FFDDDD', fontSize: '1rem', marginBottom: '2rem' }}>
+        <p style={{ color: "#FFDDDD", fontSize: "1rem", marginBottom: "2rem" }}>
           Community rate applies when both pickup and drop-off are on-reserve within any CMO nation.
         </p>
-        <div style={{
-          display: 'flex',
-          gap: '1.5rem',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-        }}>
-          {[
-            'Chippewas of the Thames First Nation',
-            'Munsee-Delaware Nation',
-            'Oneida Nation of the Thames',
-          ].map(nation => (
+        <div style={{ display: "flex", gap: "1.5rem", justifyContent: "center", flexWrap: "wrap" }}>
+          {["Chippewas of the Thames First Nation", "Munsee-Delaware Nation", "Oneida Nation of the Thames"].map(nation => (
             <div key={nation} style={{
-              backgroundColor: 'rgba(255,255,255,0.15)',
-              border: '1px solid rgba(255,255,255,0.3)',
-              borderRadius: '4px',
-              padding: '0.75rem 1.5rem',
-              color: '#FFFFFF',
-              fontFamily: 'Barlow Condensed',
+              backgroundColor: "rgba(255,255,255,0.15)",
+              border: "1px solid rgba(255,255,255,0.3)",
+              borderRadius: "4px",
+              padding: "0.75rem 1.5rem",
+              color: "#FFFFFF",
+              fontFamily: "Barlow Condensed, sans-serif",
               fontWeight: 700,
-              fontSize: '1rem',
-              letterSpacing: '0.5px',
-            }}>
-              {nation}
-            </div>
+              fontSize: "1rem",
+            }}>{nation}</div>
           ))}
         </div>
       </section>
