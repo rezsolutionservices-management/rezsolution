@@ -16,12 +16,12 @@
       {/* Owner Card */}
       <section style={{ backgroundColor: "#FFFFFF", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
         <div style={{ maxWidth: "700px", margin: "0 auto", backgroundColor: "#F4F5F7", border: "2px solid #F5C000", borderRadius: "8px", padding: "3rem", textAlign: "center" }}>
-          <div style={{ width: "100px", height: "100px", borderRadius: "50%", backgroundColor: "#E5E7EB", border: "3px solid #F5C000", margin: "0 auto 1.5rem", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2.5rem" }}>
-            DA
+          <div style={{ width: "160px", height: "160px", borderRadius: "50%", border: "3px solid #F5C000", margin: "0 auto 1.5rem", overflow: "hidden" }}>
+            <img src="/headshot.jpg" alt="Daniel Albert" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 20%" }} />
           </div>
           <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "2rem", color: "#0A1628", marginBottom: "0.25rem" }}>Daniel Albert</h2>
           <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "1.5rem" }}>Owner & Operator</p>
-          <p style={{ color: "#666666", fontSize: "1rem", lineHeight: 1.8, fontStyle: "italic" }}>Bio coming soon — check back shortly.</p>
+          <p style={{ color: "#666666", fontSize: "1rem", lineHeight: 1.8 }}>Daniel Albert is the owner and sole operator of RezSolution Services. Raised in Brooklyn, New York, Daniel relocated to Chippewas of the Thames First Nation four years ago and quickly saw the need for reliable, affordable delivery in the CMO communities. RezSolution was built from that experience — a service that actually shows up, run by someone who lives here too. When you order with RezSolution, you are dealing directly with Daniel, every time.</p>
         </div>
       </section>
 
