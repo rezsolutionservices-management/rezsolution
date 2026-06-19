@@ -94,9 +94,9 @@ export default function Contact() {
               <h3 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.3rem", color: "#0A1628", marginBottom: "1rem" }}>Contact Info</h3>
               <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 {[
-                  { label: "Phone", value: "Coming soon" },
                   { label: "Email", value: "RezSolutionServices@gmail.com" },
-                  { label: "Facebook", value: "Coming soon" },
+                  { label: "Facebook", value: "RezSolution Services" },
+                  { label: "Phone", value: "Provided upon order or via Messenger" },
                 ].map(item => (
                   <div key={item.label}>
                     <div style={{ color: "#999999", fontSize: "0.8rem", marginBottom: "0.1rem" }}>{item.label}</div>

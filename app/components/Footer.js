@@ -22,10 +22,9 @@ export default function Footer() {
         <div style={{ flex: "1", minWidth: "180px" }}>
           <h4 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", color: "#FFFFFF", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "1rem" }}>Contact</h4>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
-            <span style={{ color: "#AAAAAA", fontSize: "0.9rem" }}>Phone: Coming soon</span>
             <span style={{ color: "#AAAAAA", fontSize: "0.9rem", wordBreak: "break-all" }}>Email: RezSolutionServices@gmail.com</span>
-            <span style={{ color: "#AAAAAA", fontSize: "0.9rem" }}>Facebook: Coming soon</span>
-            <span style={{ color: "#AAAAAA", fontSize: "0.9rem" }}>Location: Southwestern Ontario</span>
+            <a href="https://www.facebook.com/RezSolutionServices" target="_blank" rel="noopener noreferrer" style={{ color: "#F5C000", fontSize: "0.9rem", textDecoration: "none" }}>Facebook: RezSolution Services</a>
+            <span style={{ color: "#AAAAAA", fontSize: "0.85rem", fontStyle: "italic" }}>Phone provided upon order or via Messenger</span>
           </div>
         </div>
         <div style={{ flex: "1", minWidth: "180px" }}>
