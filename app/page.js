@@ -5,7 +5,7 @@
       {/* Hero Section */}
       <section style={{
         position: "relative",
-        height: "630px",
+        height: "700px",
         marginTop: "-65px",
         paddingTop: "65px",
         overflow: "hidden",
@@ -35,7 +35,7 @@
         <div style={{
           position: "relative",
           zIndex: 2,
-          padding: "0 3rem",
+          padding: "80px 3rem 0",
           maxWidth: "560px",
         }}>
           <div style={{ width: "40px", height: "3px", backgroundColor: "#F5C000", marginBottom: "1.25rem" }} />
