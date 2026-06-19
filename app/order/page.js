@@ -13,9 +13,9 @@ const PACKAGE_TYPES = [
 const SHOPPING_TYPES = ["food", "smoke", "grocery"];
 
 function calcStandardRate(km, packageSurcharge, rush) {
-  const labour = (km / 40) * 30;
-  const base = km * 0.45 + labour;
-  const withMargin = base * 1.3;
+  const labour = (km / 40) * 20;
+  const base = km * 0.38 + labour;
+  const withMargin = base * 1.2;
   const total = withMargin + packageSurcharge + (rush ? 8 : 0);
   return Math.max(10, Math.round(total * 100) / 100);
 }
