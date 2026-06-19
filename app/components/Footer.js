@@ -36,9 +36,12 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div style={{ maxWidth: "1100px", margin: "2rem auto 0", paddingTop: "1.5rem", borderTop: "1px solid #1a2a3a", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
+      <div style={{ maxWidth: "1100px", margin: "2rem auto 0", paddingTop: "1.5rem", borderTop: "1px solid #1a2a3a", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem", alignItems: "center" }}>
         <span style={{ color: "#555555", fontSize: "0.85rem" }}>© {new Date().getFullYear()} RezSolution Services. All rights reserved.</span>
-        <span style={{ color: "#555555", fontSize: "0.85rem" }}>Serving CMO Nations & Southwestern Ontario</span>
+        <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+          <a href="/privacy-policy" style={{ color: "#AAAAAA", fontSize: "0.85rem", textDecoration: "none" }}>Privacy Policy</a>
+          <a href="/medical-courier-agreement" style={{ color: "#AAAAAA", fontSize: "0.85rem", textDecoration: "none" }}>Medical Courier Agreement</a>
+        </div>
       </div>
     </footer>
   );
