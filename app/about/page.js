@@ -1,8 +1,12 @@
-﻿export default function About() {
+﻿export const metadata = {
+  title: 'About Us | RezSolution Services',
+  description: 'RezSolution Services is a community-focused last-mile courier operated by Daniel Albert, proudly serving Chippewas of the Thames, Munsee-Delaware, and Oneida Nation.',
+};
+
+export default function About() {
   return (
     <main style={{ backgroundColor: "#F4F5F7" }}>
 
-      {/* Hero */}
       <section style={{ backgroundColor: "#0A1628", padding: "4rem 2rem", textAlign: "center", borderBottom: "4px solid #F5C000" }}>
         <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "1rem" }}>Who We Are</p>
         <h1 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "clamp(2.5rem, 6vw, 4rem)", color: "#FFFFFF", lineHeight: 1.1, marginBottom: "1rem" }}>
@@ -13,7 +17,6 @@
         </p>
       </section>
 
-      {/* Owner Card */}
       <section style={{ backgroundColor: "#FFFFFF", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
         <div style={{ maxWidth: "700px", margin: "0 auto", backgroundColor: "#F4F5F7", border: "2px solid #F5C000", borderRadius: "8px", padding: "3rem", textAlign: "center" }}>
           <div style={{ width: "160px", height: "160px", borderRadius: "50%", border: "3px solid #F5C000", margin: "0 auto 1.5rem", overflow: "hidden" }}>
@@ -25,7 +28,6 @@
         </div>
       </section>
 
-      {/* Mission Pillars */}
       <section style={{ backgroundColor: "#F4F5F7", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "0.75rem" }}>Our Values</p>
@@ -49,7 +51,6 @@
         </div>
       </section>
 
-      {/* CMO Nations */}
       <section style={{ backgroundColor: "#FFFFFF", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
           <p style={{ color: "#F5C000", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "0.85rem", letterSpacing: "3px", textTransform: "uppercase", marginBottom: "0.75rem" }}>Our Territory</p>

@@ -1,4 +1,9 @@
-﻿export default function Services() {
+﻿export const metadata = {
+  title: 'Delivery Services | RezSolution Services',
+  description: 'Food orders, groceries, prescriptions, parcels, documents and medical courier services across CMO Nations and Southwestern Ontario. Get an instant quote.',
+};
+
+export default function Services() {
   const services = [
     { color: "#2563EB", icon: "🍔", label: "Food Order", surcharge: "+$3", desc: "Hot meals from local restaurants, home kitchens, or CMO eatery partners. Two-step payment — delivery fee upfront, food cost billed after pickup.", note: null },
     { color: "#D97706", icon: "🏪", label: "Smoke & Snack Run", surcharge: "+$2", desc: "Tobacco products and convenience snacks delivered to your door. Item list submitted at order, delivery fee paid upfront.", note: "ID verification required at delivery. Order handed only to the person who placed it." },
