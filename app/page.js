@@ -209,6 +209,7 @@
             { color: "#374151", icon: "📦", label: "General Parcel", desc: "Packages & courier" },
             { color: "#DC2626", icon: "💊", label: "Pharmacy / Rx", desc: "Prescription pickup & drop" },
             { color: "#7C3AED", icon: "📄", label: "Documents", desc: "Secure document delivery" },
+{ color: "#DC2626", icon: "🏥", label: "Medical Courier", desc: "Confidential healthcare delivery" },
           ].map(item => (
             <a key={item.label} href="/services" style={{
               backgroundColor: "#FFFFFF",
