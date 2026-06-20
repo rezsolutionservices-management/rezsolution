@@ -196,7 +196,7 @@ export default function Business() {
                       <label style={labelStyle}>Preferred Billing</label>
                       <select name="billing" value={eateryForm.billing} onChange={handleEateryChange} style={inputStyle}>
                         <option value="">Select...</option>
-                        <option>Per delivery</option><option>Weekly</option><option>Monthly</option>
+                        <option>Per delivery</option>
                       </select>
                     </div>
                     <button type="submit" style={{ backgroundColor: "#F5C000", color: "#0A1628", padding: "0.9rem 2rem", borderRadius: "4px", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "1px", border: "none", cursor: "pointer", alignSelf: "flex-start" }}>SUBMIT APPLICATION</button>
