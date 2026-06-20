@@ -14,12 +14,14 @@ export default function Dashboard({ onLogout }) {
   const [search, setSearch] = useState("");
   const [expanded, setExpanded] = useState(null);
   const [date, setDate] = useState(todayStr());
+  const [allTime, setAllTime] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  async function loadOrders(selectedDate) {
+  async function loadOrders(selectedDate, isAllTime) {
     setLoading(true);
     try {
-      const res = await fetch("/api/orders?date=" + selectedDate);
+      const url = isAllTime ? "/api/orders" : "/api/orders?date=" + selectedDate;
+      const res = await fetch(url);
       const data = await res.json();
       if (data.success) setOrders(data.data || []);
     } catch (e) {
@@ -28,7 +30,7 @@ export default function Dashboard({ onLogout }) {
     setLoading(false);
   }
 
-  useEffect(() => { loadOrders(date); }, [date]);
+  useEffect(() => { loadOrders(date, allTime); }, [date, allTime]);
 
   async function updateStatus(id, status) {
     setOrders(orders.map(o => o.id === id ? { ...o, status } : o));
@@ -41,7 +43,9 @@ export default function Dashboard({ onLogout }) {
 
   const filtered = orders.filter(o => {
     const matchFilter = filter === "all" || o.status === filter;
-    const matchSearch = o.name?.toLowerCase().includes(search.toLowerCase()) || String(o.id).includes(search);
+    const matchSearch = o.name?.toLowerCase().includes(search.toLowerCase()) ||
+      o.phone?.includes(search) ||
+      String(o.id).includes(search);
     return matchFilter && matchSearch;
   });
 
@@ -63,8 +67,9 @@ export default function Dashboard({ onLogout }) {
             <p style={{ color: "#999999", fontSize: "0.85rem" }}>RezSolution Services</p>
           </div>
           <div style={{ display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap" }}>
-            <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.5rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "0.9rem", outline: "none", cursor: "pointer" }} />
-            <button onClick={() => setDate(todayStr())} style={{ backgroundColor: "#F5C000", border: "none", borderRadius: "4px", color: "#0A1628", padding: "0.5rem 1rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer" }}>Today</button>
+            <input type="date" value={date} onChange={e => { setDate(e.target.value); setAllTime(false); }} disabled={allTime} style={{ backgroundColor: allTime ? "#F4F5F7" : "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.5rem 1rem", color: allTime ? "#AAAAAA" : "#333333", fontFamily: "Barlow, sans-serif", fontSize: "0.9rem", outline: "none", cursor: allTime ? "not-allowed" : "pointer" }} />
+            <button onClick={() => { setDate(todayStr()); setAllTime(false); }} style={{ backgroundColor: allTime ? "#FFFFFF" : "#F5C000", border: allTime ? "1px solid #DDDDDD" : "none", borderRadius: "4px", color: allTime ? "#666666" : "#0A1628", padding: "0.5rem 1rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer" }}>Today</button>
+            <button onClick={() => setAllTime(true)} style={{ backgroundColor: allTime ? "#F5C000" : "#FFFFFF", border: allTime ? "none" : "1px solid #DDDDDD", borderRadius: "4px", color: allTime ? "#0A1628" : "#666666", padding: "0.5rem 1rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "0.9rem", cursor: "pointer" }}>All Time</button>
             <button onClick={onLogout} style={{ backgroundColor: "transparent", border: "1px solid #DDDDDD", borderRadius: "4px", color: "#666666", padding: "0.5rem 1rem", fontFamily: "Barlow, sans-serif", fontSize: "0.9rem", cursor: "pointer" }}>Log Out</button>
           </div>
         </div>
@@ -91,7 +96,7 @@ export default function Dashboard({ onLogout }) {
               {f === "all" ? "All Orders" : f.replace("-", " ")}
             </button>
           ))}
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by name or order ID..." style={{ marginLeft: "auto", backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.5rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "0.9rem", outline: "none", minWidth: "220px" }} />
+          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by name, phone, or order ID..." style={{ marginLeft: "auto", backgroundColor: "#FFFFFF", border: "1px solid #DDDDDD", borderRadius: "4px", padding: "0.5rem 1rem", color: "#333333", fontFamily: "Barlow, sans-serif", fontSize: "0.9rem", outline: "none", minWidth: "260px" }} />
         </div>
 
         {/* Orders */}
@@ -102,8 +107,8 @@ export default function Dashboard({ onLogout }) {
             </div>
           ) : filtered.length === 0 ? (
             <div style={{ textAlign: "center", padding: "4rem", backgroundColor: "#FFFFFF", borderRadius: "8px", border: "1px solid #E5E7EB" }}>
-              <p style={{ fontFamily: "Barlow Condensed, sans-serif", fontSize: "1.5rem", color: "#0A1628", marginBottom: "0.5rem" }}>No orders for this date</p>
-              <p style={{ fontSize: "0.9rem", color: "#999999" }}>Try selecting a different date or check back later.</p>
+              <p style={{ fontFamily: "Barlow Condensed, sans-serif", fontSize: "1.5rem", color: "#0A1628", marginBottom: "0.5rem" }}>No orders found</p>
+              <p style={{ fontSize: "0.9rem", color: "#999999" }}>Try a different date, search term, or switch to All Time.</p>
             </div>
           ) : filtered.map(order => (
             <div key={order.id} style={{ backgroundColor: "#FFFFFF", border: "1px solid #E5E7EB", borderRadius: "8px", overflow: "hidden" }}>
