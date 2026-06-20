@@ -5,6 +5,21 @@ import Footer from './components/Footer';
 export const metadata = {
   title: 'RezSolution Services',
   description: 'Last-mile courier and delivery for CMO Nations and Southwestern Ontario.',
+  openGraph: {
+    title: 'RezSolution Services',
+    description: 'Fast. Reliable. For Our Nation. Last-mile courier serving CMO Nations and Southwestern Ontario.',
+    url: 'https://www.rezsolutionservices.com',
+    siteName: 'RezSolution Services',
+    images: [
+      {
+        url: 'https://www.rezsolutionservices.com/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'RezSolution Services',
+      },
+    ],
+    type: 'website',
+  },
 };
 
 export default function RootLayout({ children }) {
