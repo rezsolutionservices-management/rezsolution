@@ -231,6 +231,11 @@ export default function Business() {
                   <p style={{ color: "#1E40AF", fontSize: "0.85rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700 }}>SERVING CMO HEALTH CENTRES</p>
                   <p style={{ color: "#1E40AF", fontSize: "0.85rem", marginTop: "0.25rem" }}>We proudly serve band health centres and medical providers across all three CMO nations at the community rate.</p>
                 </div>
+                <div style={{ backgroundColor: "#F4F5F7", border: "1px solid #E5E7EB", borderRadius: "6px", padding: "1rem", marginTop: "1rem" }}>
+                  <p style={{ color: "#555555", fontSize: "0.85rem", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, marginBottom: "0.5rem" }}>LEGAL DOCUMENTS</p>
+                  <a href="/privacy-policy" style={{ display: "block", color: "#2563EB", fontSize: "0.85rem", textDecoration: "underline", marginBottom: "0.4rem" }}>Privacy & Confidentiality Policy</a>
+                  <a href="/medical-courier-agreement" style={{ display: "block", color: "#2563EB", fontSize: "0.85rem", textDecoration: "underline" }}>Medical Courier Services Agreement</a>
+                </div>
               </div>
               <div style={{ flex: "2", minWidth: "280px" }}>
                 {medSubmitted ? (
