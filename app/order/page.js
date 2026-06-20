@@ -309,7 +309,8 @@ export default function Order() {
               </div>
 
               <div style={{ backgroundColor: "#F4F5F7", borderRadius: "8px", padding: "1.5rem", border: "1px solid #E5E7EB" }}>
-                <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "1.25rem" }}>Package Type</h2>
+                <h2 style={{ fontFamily: "Barlow Condensed, sans-serif", fontWeight: 800, fontSize: "1.5rem", color: "#0A1628", marginBottom: "0.5rem" }}>Package Type</h2>
+                <p style={{ color: "#888888", fontSize: "0.85rem", marginBottom: "1rem" }}>All deliveries are made in a 4-door sedan. Items must fit within the vehicle.</p>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "0.75rem" }}>
                   {PACKAGE_TYPES.map(p => (
                     <button key={p.id} type="button" onClick={() => setPackageType(p.id)} style={{ padding: "0.85rem 1rem", borderRadius: "4px", border: packageType === p.id ? "2px solid #F5C000" : "2px solid #DDDDDD", backgroundColor: packageType === p.id ? "#FEF3C7" : "#FFFFFF", color: packageType === p.id ? "#92400E" : "#333333", fontFamily: "Barlow Condensed, sans-serif", fontWeight: 700, fontSize: "1rem", cursor: "pointer", textAlign: "left" }}>

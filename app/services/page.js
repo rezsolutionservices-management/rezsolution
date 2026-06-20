@@ -19,7 +19,7 @@
         </p>
       </section>
 
-      <section style={{ backgroundColor: "#FFFFFF", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
+      <section style={{ backgroundColor: "#FFFFFF", padding: "5rem 2rem", borderBottom: "none" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", maxWidth: "1100px", margin: "0 auto" }}>
           {services.map(service => (
             <div key={service.label} style={{ backgroundColor: "#F4F5F7", border: "1px solid #E5E7EB", borderRadius: "8px", padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -64,6 +64,11 @@
           </div>
 
         </div>
+
+        <div style={{ maxWidth: "1100px", margin: "2rem auto 0", backgroundColor: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: "6px", padding: "1rem 1.5rem", color: "#1E40AF", fontSize: "0.9rem", lineHeight: 1.6 }}>
+          <strong>Vehicle Notice:</strong> All deliveries are made in a 4-door sedan. Packages, parcels, and medical items must fit comfortably within the vehicle. Please confirm item size before placing your order.
+        </div>
+
       </section>
 
       <section style={{ backgroundColor: "#F4F5F7", padding: "5rem 2rem", borderBottom: "4px solid #F5C000" }}>
