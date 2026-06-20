@@ -25,7 +25,7 @@
         <div style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(to right, #0A1628 25%, rgba(10,22,40,0.8) 45%, rgba(10,22,40,0.15) 70%, rgba(10,22,40,0) 100%)",
+          background: "linear-gradient(to right, #0A1628 30%, rgba(10,22,40,0.8) 50%, rgba(10,22,40,0.15) 75%, rgba(10,22,40,0) 100%)",
         }} />
         <div style={{
           position: "absolute",
